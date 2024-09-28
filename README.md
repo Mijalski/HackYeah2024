@@ -47,6 +47,7 @@ curl -X POST http://localhost:8080 -H "Content-Type: application/json" -d '{"mes
 
 ### API Docs
 
+Get task:
 GET http://127.0.0.1:8085?level=[A1|A2|B1|B2]&from=[pl|en|us]&to=[pl|en|us]
 
 Sample response
@@ -62,6 +63,7 @@ Sample response
 }
 ```
 
+Evaluate response:
 POST http://127.0.0.1:8085
 
 Sample body 
@@ -78,5 +80,15 @@ Sample response
 ```
 {
     "evaluation": "invalid: Odpowiedź jest zbyt prosta i nie spełnia wymagań poziomu C1. Brakuje głębszej analizy oraz bardziej złożonych struktur gramatycznych. \n\nPrzykład poprawy odpowiedzi: \"Mi deporte favorito es el fútbol porque disfruto no solo de correr, sino también de la estrategia y el trabajo en equipo que implica. Además, me encanta la emoción que se vive durante los partidos.\""
+}
+```
+
+Text to speech:
+POST http://127.0.0.1:8085
+
+Sample body 
+```
+{
+    "prompt": "Masło boi się spać z innymi, to pipa"
 }
 ```
