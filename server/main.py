@@ -31,26 +31,24 @@ def get_prompt(request: Request):
     prompt_options = [
         f"""
         Generate a {level} level small talk question for language learning. 
-        The question should be in {to_lang}, and the context is that the learner's native language is {from_lang}. 
-        Make sure to return only the question and nothing else.
+        The question should be in {to_lang}.
+        First part of the full output should be "Answer the question: " in {from_lang}
+        Formulate the output in the format:
+        [ORDER TO ASWER THE QUESTION SPECIFIED IN {from_lang}]: "[QUESTION]"
         """,
 
         f"""
         I would like you to generate a translation request for a small talk question.
         The difficulty level of the question should be '{level}'.
-        Establish the source language based on '{from_lang}'.
-        Establish the target language based on '{to_lang}'.
+        Source language is '{from_lang}'.
+        Target language is '{to_lang}'.
         The question should originate in the source language and should be translated into target language.
 
-        Here are your instructions:
-        - Automatically establish [Full Target Language Name In Source Language] (for example, en is english, pl is polish)
-        - Start your response with: 'Please translate to [Full Target Language Name In Source Language]:' phrase in {from_lang}.
-        - Only return the small talk question and nothing else.
-        - Ensure the response follows the format mentioned above.
-
-        Now, ask the user to translate a small talk question from {from_lang} to {to_lang}.
+        Formulate an inquiry to the user to translate the small talk question from {from_lang} language to {to_lang} language.
+        Inquiry should be in {from_lang} language.
+        Question should be in {from_lang} language inside double quotes.
         """,
-
+        
         f"""
         Ask the user to translate a word they might need to learn at {level} level from {from_lang} to {to_lang}.
         Ensure the task is returned in the language of the word to be translated, {from_lang}.
@@ -73,12 +71,13 @@ def get_prompt(request: Request):
         """,
     ]
 
-    selected_prompt = random.choice(prompt_options)
+    idx = random.randint(0, len(prompt_options) - 1)
+    selected_prompt = prompt_options[idx]
 
     prompt = HumanMessage(content=selected_prompt)
     response = llm([prompt])
 
-    response = jsonify({"question": response.content})
+    response = jsonify({"question": response.content, "prompt_type": idx})
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
@@ -130,6 +129,15 @@ def post_evaluation(request: Request):
 
 
 def post_read_prompt(request: Request):
+    if request.method == 'OPTIONS':
+        headers = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Max-Age': '3600'
+        }
+        return ('', 204, headers)
+    
     client = OpenAI(api_key=fetch_openai_api_key())
     
     try:
