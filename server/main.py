@@ -122,8 +122,14 @@ def post_evaluation(request: Request):
     evaluation_response = llm([evaluation_message])
 
     evaluation_result = evaluation_response.content
+    if evaluation_result.startswith("Valid. "):
+        valid = True
+        evaluation_result = evaluation_result[len("Valid. "):]
+    elif evaluation_result.startswith("Invalid. "):
+        valid = False
+        evaluation_result = evaluation_result[len("Invalid. "):]
 
-    response = jsonify({"evaluation": evaluation_result})
+    response = jsonify({"evaluation": evaluation_result, "isValid": valid})
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
