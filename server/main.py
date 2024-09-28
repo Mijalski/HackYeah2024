@@ -1,4 +1,3 @@
-import os
 import random
 from io import BytesIO
 
@@ -31,14 +30,30 @@ def get_prompt(request: Request):
 
     prompt_options = [
         f"""Generate a {level} level small talk question for language learning. 
-    The question should be in {to_lang}, and the context is that the learner's native language is {from_lang}. 
-    Make sure to return only the question and nothing else.""",
-        f"""Ask the user to translate a {level} level small talk question from their native language {from_lang} to {to_lang}. 
-    Make sure to return only the question and nothing else. Start the answer with Please translate:""",
+        The question should be in {to_lang}, and the context is that the learner's native language is {from_lang}. 
+        Make sure to return only the question and nothing else.""",
+
+        f"""
+        I would like you to generate a translation request for a small talk question.
+        The difficulty level of the question should be '{level}'.
+        Establish the source language based on '{from_lang}'.
+        Establish the target language based on '{to_lang}'.
+        The question should originate in the source language and should be translated into target language.
+
+        Here are your instructions:
+        - Automatically establish [Full Target Language Name In Source Language] (for example, en is English, pl is Polish)
+        - Start your response with: 'Please translate to [Full Target Language Name In Source Language]:' phrase in {from_lang}.
+        - Only return the small talk question and nothing else.
+        - Ensure the response follows the format mentioned above.
+
+        Now, ask the user to translate a small talk question from {from_lang} to {to_lang}.
+        """
+
         f"""Ask the user to translate a word they might need to learn at {level} level from {from_lang} to {to_lang}. 
-    Make sure to return only the task and nothing else.""",
+        Make sure to return only the task and nothing else.""",
+        
         f"""Ask the user to conjugate a common verb they might need to learn at {level} level in {to_lang}. 
-    Make sure to return only the task and nothing else.""",
+        Make sure to return only the task and nothing else.""",
     ]
 
     selected_prompt = random.choice(prompt_options)
@@ -46,7 +61,9 @@ def get_prompt(request: Request):
     prompt = HumanMessage(content=selected_prompt)
     response = llm([prompt])
 
-    return jsonify({"question": response.content})
+    response = jsonify({"question": response.content})
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 
 def post_evaluation(request: Request):
@@ -86,7 +103,7 @@ def post_evaluation(request: Request):
 
 def post_read_prompt(request: Request):
     client = OpenAI(api_key=fetch_openai_api_key())
-
+    
     try:
         data = request.get_json()
         if not data or "prompt" not in data:
@@ -102,7 +119,7 @@ def post_read_prompt(request: Request):
         audio_content = response.content  # Access the binary content directly
         audio_stream = BytesIO(audio_content)
         audio_stream.seek(0)
-
+        
         return Response(
             audio_stream,
             mimetype="audio/mpeg",
