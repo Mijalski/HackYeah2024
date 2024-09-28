@@ -48,7 +48,7 @@ def get_prompt(request: Request):
         Inquiry should be in {from_lang} language.
         Question should be in {from_lang} language inside double quotes.
         """,
-        
+
         f"""
         Ask the user to translate a word they might need to learn at {level} level from {from_lang} to {to_lang}.
         Ensure the task is returned in the language of the word to be translated, {from_lang}.
@@ -106,28 +106,28 @@ def post_evaluation(request: Request):
         max_tokens=100,
     )
 
-    evaluation_prompt = (
-        f"Evaluate the following response based on the task given: "
-        f"Task: {original_prompt}. Response: {user_response}. Response should be in {to_lang}. "
-        f"The evaluation should be done in {from_lang} and should consider the language level {level}. "
-        f"For levels A1 and A2, allow for simpler sentences and some minor errors if they do not hinder understanding. "
-        f"Consider the correctness of the response in {to_lang}, translation accuracy if applicable, correct verb conjugation, "
-        f"and whether it appropriately matches the task requirements. "
-        f"Return 'valid' if the response is acceptable, considering the language level, "
-        f"otherwise return 'invalid' with a brief reason in the {from_lang} language. "
-        f"Provide an example of how to correct the response if needed."
-    )
-
+    evaluation_prompt = f"""
+        Evaluate the following response based on the task given:
+        Task: {original_prompt}. 
+        Response: {user_response}. 
+        Response should be in {to_lang}. 
+        The evaluation should be done in {from_lang} and should consider the language level {level}.
+        For levels A1 and A2, allow for simpler sentences and some minor errors if they do not hinder understanding. 
+        Consider the correctness of the response in {to_lang}, translation accuracy if applicable, correct verb conjugation, 
+        and whether it appropriately matches the task requirements. 
+        Return 'valid' if the response is acceptable, considering the language level, 
+        otherwise return 'invalid' with a brief reason in the {from_lang} language. 
+        Provide an example of how to correct the response if needed.
+    """
+        
     evaluation_message = HumanMessage(content=evaluation_prompt)
     evaluation_response = llm([evaluation_message])
 
     evaluation_result = evaluation_response.content
+
+    valid = False
     if evaluation_result.startswith("Valid. "):
         valid = True
-        evaluation_result = evaluation_result[len("Valid. "):]
-    elif evaluation_result.startswith("Invalid. "):
-        valid = False
-        evaluation_result = evaluation_result[len("Invalid. "):]
 
     response = jsonify({"evaluation": evaluation_result, "isValid": valid})
     response.headers.add("Access-Control-Allow-Origin", "*")

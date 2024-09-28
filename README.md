@@ -24,13 +24,13 @@ functions-framework --target=get_prompt
 
 ### Deploy Cloud Function
 ```
-gcloud functions deploy post_read_prompt `
+gcloud functions deploy post_evaluation `
     --runtime python312 `
     --trigger-http `
     --allow-unauthenticated `
     --service-account cloud-functions-sa@hackyeah-2024.iam.gserviceaccount.com `
     --region=europe-central2 `
-    --entry-point post_read_prompt
+    --entry-point post_evaluation
 ```
 
 
