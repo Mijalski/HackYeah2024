@@ -27,7 +27,7 @@ const LanguageChanger = () => {
             setFromLanguage(toLanguage);
             setToLanguage(fromLanguage);
           } else {
-            setToLanguage(data);
+            setFromLanguage(data);
           }
         }}
       />
