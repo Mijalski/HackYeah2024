@@ -7,7 +7,7 @@ import { gcdService } from "../api/services/gcdService";
 
 const MainView = () => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [apiQuestion, setApiQuestion] = useState("...");
+  const [apiQuestion, setApiQuestion] = useState("");
 
   const handlePlayClick = () => {
     setIsPlaying(true);
@@ -73,7 +73,7 @@ const MainView = () => {
   }
 
   useEffect(() => {
-    setApiQuestion("...");
+    setApiQuestion("")
     if (isPlaying) {
       gcdService
         .getPrompt(toLevel.level, fromLanguage.shortcut, toLanguage.shortcut)

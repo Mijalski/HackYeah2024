@@ -16,7 +16,7 @@ const ChatBubble = ({
   const [userInput, setUserInput] = useState("");
 
   const bubbleStyle = isServer
-    ? "bg-gray-200 text-black self-start"
+    ? "bg-[#F1FEFF] text-[#273237] self-start"
     : "bg-blue-500 text-white self-end";
 
   const tailStyle = isServer
@@ -30,7 +30,7 @@ const ChatBubble = ({
         style={{ wordBreak: "break-word" }}
       >
         {isServer ? (
-          <div>{content}</div>
+          <div className="text-[#273237]">{content ? (content) : (<div className="dots font-bold text-base"><span>.</span><span>.</span><span>.</span></div>)}</div>
         ) : (
           <textarea
             className="w-full bg-transparent outline-none resize-none"
