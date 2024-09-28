@@ -38,3 +38,17 @@ body {
   border-bottom: 10px solid transparent;
   border-left: 10px solid #3b82f6;
 }
+@keyframes fade-in-bottom {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-bottom {
+  animation: fade-in-bottom 0.5s ease-out;
+}

@@ -6,22 +6,27 @@ type ChatBubbleProps = {
   onPlayClick: () => void;
 };
 
-const ChatBubble = ({ isServer = true, isPlaying, onPlayClick }: ChatBubbleProps) => {
+const ChatBubble = ({
+  isServer = true,
+  isPlaying,
+  onPlayClick,
+}: ChatBubbleProps) => {
   const [userInput, setUserInput] = useState("");
 
   const bubbleStyle = isServer
     ? "bg-gray-200 text-black self-start"
     : "bg-blue-500 text-white self-end";
 
-  const tailStyle = isServer
-    ? "chat-bubble-tail-left"
-    : "chat-bubble-tail-right";
+  const tailStyle = isServer ? "chat-bubble-tail-left" : "chat-bubble-tail-right";
 
   return (
     <div className="mb-2 w-96 flex">
       <div
-        className={`relative w-full rounded-3xl p-4 ${bubbleStyle} flex items-center justify-center`}
-        style={{ wordBreak: "break-word", cursor: !isPlaying ? "pointer" : "default" }}
+        className={`relative w-full rounded-3xl p-4 ${bubbleStyle} flex items-center justify-center animate-fade-in-bottom`}
+        style={{
+          wordBreak: "break-word",
+          cursor: !isPlaying ? "pointer" : "default",
+        }}
         onClick={!isPlaying ? onPlayClick : undefined}
       >
         {isPlaying ? (
