@@ -45,7 +45,7 @@ gcloud functions deploy post_evaluation `
 ## API Docs
 
 Get task:
-GET http://127.0.0.1:8085?level=[A1|A2|B1|B2]&from=[pl|en|us]&to=[pl|en|us]
+GET https://europe-central2-hackyeah-2024.cloudfunctions.net/get_prompt?level=[A1|A2|B1|B2]&from=[pl|en|us]&to=[pl|en|us]
 
 Sample response
 ```
@@ -61,7 +61,7 @@ Sample response
 ```
 
 Evaluate response:
-POST http://127.0.0.1:8085
+POST hhttps://europe-central2-hackyeah-2024.cloudfunctions.net/post_evaluation
 
 Sample body 
 ```
@@ -81,7 +81,7 @@ Sample response
 ```
 
 Text to speech:
-POST http://127.0.0.1:8085
+POST hhttps://europe-central2-hackyeah-2024.cloudfunctions.net/post_read_prompt
 
 Sample body 
 ```
