@@ -36,7 +36,7 @@ curl -X POST http://localhost:8080 -H "Content-Type: application/json" -d '{"mes
 
 ### API Docs
 
-http://127.0.0.1:8085?level=[A1|A2|B1|B2]&from=[pl|en|us]&to=[pl|en|us]
+GET http://127.0.0.1:8085?level=[A1|A2|B1|B2]&from=[pl|en|us]&to=[pl|en|us]
 
 Sample response
 ```
@@ -51,3 +51,21 @@ Sample response
 }
 ```
 
+POST http://127.0.0.1:8085
+
+Sample body 
+```
+{
+    "prompt": "¿Cual es tu deporte favorito y por que?",
+    "level": "C1",
+    "from": "pl",
+    "to": "es",
+    "response": "Mi deporte favorito es futbol porque me gusta correr"
+}
+```
+Sample response
+```
+{
+    "evaluation": "invalid: Odpowiedź jest zbyt prosta i nie spełnia wymagań poziomu C1. Brakuje głębszej analizy oraz bardziej złożonych struktur gramatycznych. \n\nPrzykład poprawy odpowiedzi: \"Mi deporte favorito es el fútbol porque disfruto no solo de correr, sino también de la estrategia y el trabajo en equipo que implica. Además, me encanta la emoción que se vive durante los partidos.\""
+}
+```
