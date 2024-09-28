@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
-import confetti from 'canvas-confetti';
-import ChatBubble from './ChatBubble';
-import { icons } from '../assets/icons.const';
+import { useContext, useEffect, useState } from "react";
+import confetti from "canvas-confetti";
+import ChatBubble from "./ChatBubble";
+import { icons } from "../assets/icons.const";
+import { LanguageContext } from "../Contexts/LangSelectedContextProvider";
 
 const MainView = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -12,28 +13,40 @@ const MainView = () => {
 
   useEffect(() => {
     const handleKeyPress = (event: any) => {
-      if (event.key === 'Enter') {
+      if (event.key === "Enter") {
         shoot(Date.now() + 800);
       }
     };
 
-    window.addEventListener('keydown', handleKeyPress);
+    window.addEventListener("keydown", handleKeyPress);
     return () => {
-      window.removeEventListener('keydown', handleKeyPress);
+      window.removeEventListener("keydown", handleKeyPress);
     };
   }, []);
 
-  var emoji1 = confetti.shapeFromText({ text: '😍'});
-  var emoji2 = confetti.shapeFromText({ text: '👏'});
-  var emoji3 = confetti.shapeFromText({ text: '🎉'});
-  var emoji4 = confetti.shapeFromText({ text: '💖'});
-  var emoji5 = confetti.shapeFromText({ text: '😻'});
-  var emoji6 = confetti.shapeFromText({ text: '🥳'});
-  var emoji7 = confetti.shapeFromText({ text: '🙌'});
-  var emoji8  = confetti.shapeFromText({ text: '💯'});
+  const languageContext = useContext(LanguageContext);
 
-  var defaults = {
-    shapes: [emoji1, emoji2, emoji3, emoji4, emoji5, emoji6, emoji7, emoji8]
+  if (!languageContext) {
+    throw new Error("LanguageContext must be used within a LanguageProvider");
+  }
+
+  const { fromLanguage, toLanguage } = languageContext;
+
+  useEffect(() => {
+    setIsPlaying(false);
+  }, [fromLanguage, toLanguage]);
+
+  const emoji1 = confetti.shapeFromText({ text: "😍" });
+  const emoji2 = confetti.shapeFromText({ text: "👏" });
+  const emoji3 = confetti.shapeFromText({ text: "🎉" });
+  const emoji4 = confetti.shapeFromText({ text: "💖" });
+  const emoji5 = confetti.shapeFromText({ text: "😻" });
+  const emoji6 = confetti.shapeFromText({ text: "🥳" });
+  const emoji7 = confetti.shapeFromText({ text: "🙌" });
+  const emoji8 = confetti.shapeFromText({ text: "💯" });
+
+  const defaults = {
+    shapes: [emoji1, emoji2, emoji3, emoji4, emoji5, emoji6, emoji7, emoji8],
   };
 
   function shoot(end: number) {
@@ -54,18 +67,24 @@ const MainView = () => {
         origin: { x: 1 },
         scalar: 1.75,
       });
-    
+
       if (Date.now() < end) {
         requestAnimationFrame(frame);
       }
-    }());
+    })();
   }
 
   return (
     <main className="bg-background w-full h-[100vh] flex items-center flex-col z-10">
       <div className="z-10 mt-16 gap-y-8 flex flex-col">
-      <ChatBubble isPlaying={isPlaying} onPlayClick={handlePlayClick} />
-      {isPlaying && <ChatBubble isServer={false} isPlaying={isPlaying} onPlayClick={handlePlayClick} />}
+        <ChatBubble isPlaying={isPlaying} onPlayClick={handlePlayClick} />
+        {isPlaying && (
+          <ChatBubble
+            isServer={false}
+            isPlaying={isPlaying}
+            onPlayClick={handlePlayClick}
+          />
+        )}
       </div>
       <img
         src={icons.LAND}
