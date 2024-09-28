@@ -83,12 +83,9 @@ const MainView = () => {
         .getPrompt(toLevel.level, fromLanguage.shortcut, toLanguage.shortcut)
         .then((response) => {
           setApiQuestion(response.data.question);
-          console.log("data that came=>", response);
         });
     }
   }, [isPlaying]);
-
-  console.log("content=>", apiQuestion);
 
   return (
     <main className="bg-background w-full h-[100vh] flex items-center flex-col z-10">
