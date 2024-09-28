@@ -14,7 +14,8 @@ const ChatBubble = ({ isServer = true }: ChatBubbleProps) => {
   return (
     <div className={`mb-2 w-96`}>
       <div
-        className={`max-w-sm min-h-10 rounded-3xl p-4 ${bubbleStyle} break-words`}
+        className={`w-full rounded-3xl p-4 ${bubbleStyle}`}
+        style={{ wordBreak: "break-word" }}
       >
         {isServer ? (
           <div>
