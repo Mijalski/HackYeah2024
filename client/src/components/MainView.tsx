@@ -5,7 +5,7 @@ import { icons } from '../assets/icons.const';
 
 const MainView = () => {
   useEffect(() => {
-    const handleKeyPress = (event) => {
+    const handleKeyPress = (event: any) => {
       if (event.key === 'Enter') {
         createEmojiConfetti();
       }
@@ -21,24 +21,36 @@ const MainView = () => {
     const end = Date.now() + 100;
     const emojis = ['😍', '👏', '🎉', '💖', '😻', '🥳', '🙌', '💯'];
 
-    (function frame() {
+    function frame() {
       emojis.forEach((emoji) => {
+        // Display confetti
         confetti({
           particleCount: 10,
           startVelocity: 20,
           spread: 360,
           ticks: 100,
           origin: { x: Math.random() > 0.5 ? 0 : 1, y: 0 },
-          shapes: ['text'],
-          text: emoji,
-          scalar: 10,
+          scalar: 1, // Adjust as needed
         });
+    
+        // Create emoji overlay
+        const emojiElement = document.createElement('div');
+        emojiElement.style.position = 'absolute';
+        emojiElement.style.fontSize = '24px'; // Adjust size as needed
+        emojiElement.style.left = `${Math.random() * window.innerWidth}px`;
+        emojiElement.style.top = `${Math.random() * window.innerHeight}px`;
+        emojiElement.textContent = emoji;
+        document.body.appendChild(emojiElement);
+    
+        // Optional: Animation or removal after some time
+        setTimeout(() => {
+          emojiElement.remove();
+        }, end);
       });
-
-      if (Date.now() < end) {
-        requestAnimationFrame(frame);
-      }
-    })();
+    }
+    
+    frame();
+    
   };
 
   return (
