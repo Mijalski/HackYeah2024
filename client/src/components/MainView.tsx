@@ -12,6 +12,7 @@ const MainView = () => {
   const [apiQuestion, setApiQuestion] = useState("");
   const [isReading, setIsReading] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
+  const [canSubmit, setCanSubmit] = useState(false);
   const [feedback, setFeedback] = useState("");
   const userInputRef = useRef<HTMLTextAreaElement>(null);
   const balanceContext = useContext(BalanceContext);
@@ -43,11 +44,15 @@ const MainView = () => {
   useEffect(() => {
     const handleKeyPress = (event: any) => {
       if (event.key === "Enter") {
-        handleWin();
         if (userInputRef?.current) {
+          setCanSubmit(false);
           gcdService.evaluateResponse(userInputRef?.current.value).then((response) => {
-            setShowFeedback(true);
-            setFeedback(response.evaluation);
+            if (response.isValid) {
+              handleWin();
+            } else {
+              setShowFeedback(true);
+              setFeedback(response.evaluation);
+            }
           });
         }
       }
@@ -119,6 +124,7 @@ const MainView = () => {
         .getPrompt(toLevel.level, fromLanguage.shortcut, toLanguage.shortcut)
         .then((response) => {
           setApiQuestion(response.data.question);
+          setCanSubmit(true);
         });
     }
   }, [fromLanguage, toLanguage, toLevel.level]);
@@ -140,12 +146,14 @@ const MainView = () => {
           isPlaying={isPlaying}
           onPlayClick={handlePlayClick}
           content={apiQuestion}
+          canSubmit={canSubmit}
           onSoundClick={handleSoundClick}
         />
         {isPlaying && (
           <ChatBubble
             isServer={false}
             isPlaying={isPlaying}
+            canSubmit={canSubmit}
             onPlayClick={handlePlayClick}
             userInputRef={userInputRef}
           />

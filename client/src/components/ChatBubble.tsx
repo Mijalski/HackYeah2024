@@ -7,6 +7,7 @@ type ChatBubbleProps = {
   content?: string;
   userInputRef?: LegacyRef<HTMLTextAreaElement> | undefined;
   onSoundClick?: (content: string | undefined) => void;
+  canSubmit?: boolean
 };
 
 const ChatBubble = ({
@@ -16,6 +17,7 @@ const ChatBubble = ({
   content,
   onSoundClick,
   userInputRef,
+  canSubmit = false,
 }: ChatBubbleProps) => {
   const [userInput, setUserInput] = useState("");
 
@@ -50,6 +52,7 @@ const ChatBubble = ({
             className="w-full bg-transparent outline-none resize-none"
             ref={userInputRef}
             value={userInput}
+            disabled={!canSubmit}
             onChange={(e) => setUserInput(e.target.value)}
             placeholder="Type your message..."
             rows={3}
