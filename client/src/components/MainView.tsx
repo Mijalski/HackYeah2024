@@ -112,6 +112,8 @@ const MainView = () => {
 
   useEffect(() => {
     setApiQuestion("");
+    setShowFeedback(false);
+    setFeedback("");
     if (isPlaying) {
       gcdService
         .getPrompt(toLevel.level, fromLanguage.shortcut, toLanguage.shortcut)
