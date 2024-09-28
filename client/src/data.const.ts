@@ -3,19 +3,19 @@ import { icons } from "./assets/icons.const";
 export const LANGUAGES = [{
     language: "polish",
     icon: icons.PL_FLAG,
-    shortcut: "pl"
+    shortcut: "polish"
 }, {
     language: "english",
     icon: icons.US_FLAG,
-    shortcut: "en"
+    shortcut: "english"
 }, {
     language: "spanish",
     icon: icons.ES_FLAG,
-    shortcut: "es"
+    shortcut: "spanish"
 }, {
     language: "german",
     icon: icons.DE_FLAG,
-    shortcut: "de"
+    shortcut: "german"
 }] as const;
 
 export const LANGUAGE_LEVELS = [{
