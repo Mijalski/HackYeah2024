@@ -15,14 +15,14 @@ const LanguageSwitch = () => {
 
   return (
     <div
-      className="flex flex-col items-center justify-center cursor-pointer hover:text-[#787e7f]"
+      className="flex flex-col items-center justify-center cursor-pointer text-[#acb5b6] hover:text-[#787e7f]"
       onClick={() => {
         setFromLanguage(toLanguage);
         setToLanguage(fromLanguage);
       }}
     >
-      <FontAwesomeIcon icon={faArrowLeft} className="text-[#acb5b6] " />
-      <FontAwesomeIcon icon={faArrowRight} className="text-[#acb5b6]" />
+      <FontAwesomeIcon icon={faArrowLeft} className="text-inherit" />
+      <FontAwesomeIcon icon={faArrowRight} className="text-inherit" />
     </div>
   );
 };
