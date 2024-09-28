@@ -22,6 +22,10 @@ gcloud functions deploy hello_world \
 
 ### Trigger Cloud Function locally
 ```
+pip install -r .\requirements.txt
+```
+
+```
 functions-framework --target=hello_world
 ```
 
