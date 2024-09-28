@@ -11,7 +11,7 @@ const Balance = () => {
 
   const { balance } = balanceContext;
   return (
-    <div className="flex px-4 py-2 rounded-md justify-center items-center space-x-4 text-2xl bg-bgPrimary select-none">
+    <div className="text-[#273237] flex px-4 py-2 rounded-md justify-center items-center space-x-4 text-2xl bg-bgPrimary select-none">
       <img src={icons.COIN} className="w-7" />
       <span>{balance}</span>
     </div>

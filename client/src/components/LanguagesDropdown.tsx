@@ -15,7 +15,7 @@ const LanguagesDropdown = ({
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button className="flex bg-bgPrimary space-x-4 py-2 px-4 justify-center items-center rounded-lg font-light select-none transition-colors duration-200 hover:bg-[#D0E6E8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A1CBD1] w-[150px]">
+        <button className="text-[#273237] flex bg-bgPrimary space-x-4 py-2 px-4 justify-center items-center rounded-lg font-light select-none transition-colors duration-200 hover:bg-[#D0E6E8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A1CBD1] w-[150px]">
           <img
             src={selectedLanguage.icon}
             className="w-8 h-9"
@@ -33,7 +33,7 @@ const LanguagesDropdown = ({
           {LANGUAGES.map((el) => (
             <DropdownMenu.Item
               key={el.language}
-              className="flex items-center space-x-3 px-4 py-2 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none cursor-pointer transition-colors duration-200"
+              className="text-[#273237] flex items-center space-x-3 px-4 py-2 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none cursor-pointer transition-colors duration-200"
               onClick={() => handleOnClickDropdownItem(el)}
             >
               <img
@@ -41,7 +41,7 @@ const LanguagesDropdown = ({
                 className="w-5 h-5"
                 alt={`${el.language} icon`}
               />
-              <span className="text-gray-700">{el.language}</span>
+              <span>{el.language}</span>
             </DropdownMenu.Item>
           ))}
         </DropdownMenu.Content>
