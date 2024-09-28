@@ -22,7 +22,12 @@ const LanguageChanger = () => {
           icon: fromLanguage?.icon,
         }}
         handleOnClickDropdownItem={(data) => {
-          setFromLanguage(data);
+          if (data.language === toLanguage.language) {
+            setFromLanguage(toLanguage);
+            setToLanguage(fromLanguage);
+          } else {
+            setToLanguage(data);
+          }
         }}
       />
       <LanguageSwitch />
@@ -32,7 +37,12 @@ const LanguageChanger = () => {
           icon: toLanguage?.icon,
         }}
         handleOnClickDropdownItem={(data) => {
-          setToLanguage(data);
+          if (data.language === fromLanguage.language) {
+            setFromLanguage(toLanguage);
+            setToLanguage(fromLanguage);
+          } else {
+            setToLanguage(data);
+          }
         }}
       />
       <LanguageLevelsDropdown 
