@@ -15,7 +15,7 @@ const LanguageSwitch = () => {
 
   return (
     <div
-      className="flex flex-col items-center justify-center cursor-pointer text-[#acb5b6] hover:text-[#787e7f]"
+      className="flex flex-col items-center justify-center cursor-pointer text-[#acb5b6] hover:text-[#787e7f] select-none"
       onClick={() => {
         setFromLanguage(toLanguage);
         setToLanguage(fromLanguage);

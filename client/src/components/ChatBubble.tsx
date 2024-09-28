@@ -12,10 +12,9 @@ const ChatBubble = ({ isServer = true }: ChatBubbleProps) => {
     : "bg-blue-500 text-white self-end";
 
   return (
-    <div className={`flex ${isServer ? "justify-start" : "justify-end"} mb-2`}>
+    <div className={`mb-2 w-96`}>
       <div
-        className={`max-w-sm min-h-10 rounded-3xl p-4 ${bubbleStyle}`}
-        style={{ wordBreak: "break-word" }}
+        className={`max-w-sm min-h-10 rounded-3xl p-4 ${bubbleStyle} break-words`}
       >
         {isServer ? (
           <div>
