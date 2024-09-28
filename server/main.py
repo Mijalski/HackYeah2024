@@ -49,7 +49,7 @@ def get_prompt(request: Request):
         - Ensure the response follows the format mentioned above.
 
         Now, ask the user to translate a small talk question from {from_lang} to {to_lang}.
-        """
+        """,
 
         f"""
         Ask the user to translate a word they might need to learn at {level} level from {from_lang} to {to_lang}.
@@ -115,7 +115,9 @@ def post_evaluation(request: Request):
 
     evaluation_result = evaluation_response.content
 
-    return jsonify({"evaluation": evaluation_result})
+    response = jsonify({"evaluation": evaluation_result})
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 
 def post_read_prompt(request: Request):
@@ -137,10 +139,13 @@ def post_read_prompt(request: Request):
         audio_stream = BytesIO(audio_content)
         audio_stream.seek(0)
         
-        return Response(
+        response = Response(
             audio_stream,
             mimetype="audio/mpeg",
             headers={"Content-Disposition": "attachment; filename=speech.mp3"},
         )
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        return response
+    
     except Exception as e:
         return jsonify({"error": str(e)}), 500
