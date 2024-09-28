@@ -123,8 +123,8 @@ const MainView = () => {
       gcdService
         .getPrompt(toLevel.level, fromLanguage.shortcut, toLanguage.shortcut)
         .then((response) => {
-          setApiQuestion(response.data.question);
           setCanSubmit(true);
+          setApiQuestion(response.data.question);
         });
     }
   }, [fromLanguage, toLanguage, toLevel.level]);
@@ -135,6 +135,7 @@ const MainView = () => {
         .getPrompt(toLevel.level, fromLanguage.shortcut, toLanguage.shortcut)
         .then((response) => {
           setApiQuestion(response.data.question);
+          setCanSubmit(true);
         });
     }
   }, [isPlaying]);
@@ -146,7 +147,6 @@ const MainView = () => {
           isPlaying={isPlaying}
           onPlayClick={handlePlayClick}
           content={apiQuestion}
-          canSubmit={canSubmit}
           onSoundClick={handleSoundClick}
         />
         {isPlaying && (
