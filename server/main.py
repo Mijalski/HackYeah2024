@@ -84,6 +84,15 @@ def get_prompt(request: Request):
 
 
 def post_evaluation(request: Request):
+    if request.method == 'OPTIONS':
+        headers = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Max-Age': '3600'
+        }
+        return ('', 204, headers)
+    
     data = request.get_json()
     original_prompt = data.get("prompt")
     level = data.get("level", "A1")
