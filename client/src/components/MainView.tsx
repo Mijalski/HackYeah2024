@@ -1,9 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import confetti from 'canvas-confetti';
 import ChatBubble from './ChatBubble';
 import { icons } from '../assets/icons.const';
 
 const MainView = () => {
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const handlePlayClick = () => {
+    setIsPlaying(true);
+  };
+
   useEffect(() => {
     const handleKeyPress = (event: any) => {
       if (event.key === 'Enter') {
@@ -56,8 +62,8 @@ const MainView = () => {
   return (
     <main className="bg-background w-full h-[100vh] flex items-center flex-col z-10">
       <div className="z-10 mt-16 gap-y-8 flex flex-col">
-        <ChatBubble />
-        <ChatBubble isServer={false} />
+      <ChatBubble isPlaying={isPlaying} onPlayClick={handlePlayClick} />
+      {isPlaying && <ChatBubble isServer={false} isPlaying={isPlaying} onPlayClick={handlePlayClick} />}
       </div>
       <img
         src={icons.LAND}
