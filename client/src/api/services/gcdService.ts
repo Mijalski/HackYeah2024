@@ -1,9 +1,15 @@
 import axios from "axios"
 
-const BASE_URL = "https://us-central1-hackyeah-2024.cloudfunctions.net"
+const BASE_URL = "https://europe-central2-hackyeah-2024.cloudfunctions.net"
 
 export const gcdService = {
     getHelloWorld: async () => {
         return await axios.get(`${BASE_URL}/hello_world`)
+    },
+    getPrompt: async (level: string, from: string, to: string): Promise<{ question: string }> => {
+        return await axios.get(`${BASE_URL}/get_prompt?level=${level}&from=${from}&to=${to}`)
+    },
+    evaluateResponse: async (response: string): Promise<{ evaluation: string }> => {
+        return await axios.post(`${BASE_URL}/post_evaluation`, { response })
     }
 }
