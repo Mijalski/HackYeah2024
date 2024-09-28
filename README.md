@@ -19,3 +19,26 @@ gcloud functions deploy hello_world \
     --allow-unauthenticated \
     --service-account cloud-functions-sa@hackyeah-2024.iam.gserviceaccount.com
 ```
+
+### Trigger Cloud Function locally
+```
+functions-framework --target=hello_world
+```
+
+bash
+```
+curl -X POST http://localhost:8080 -H "Content-Type: application/json" -d '{"message": "Hello from the client!"}'
+```
+
+powershell
+```
+$headers = @{
+    "Content-Type" = "application/json"
+}
+
+$body = @{
+    "name" = "John"
+} | ConvertTo-Json
+
+Invoke-WebRequest -Uri "https://us-central1-hackyeah-2024.cloudfunctions.net/hello_world" -Method POST -Headers $headers -Body $body
+```
