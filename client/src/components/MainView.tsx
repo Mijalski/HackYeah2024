@@ -4,12 +4,21 @@ import ChatBubble from "./ChatBubble";
 import { icons } from "../assets/icons.const";
 import { LanguageContext } from "../Contexts/LangSelectedContextProvider";
 import { gcdService } from "../api/services/gcdService";
+import { BalanceContext } from "../Contexts/BalanceContextProvider";
 
 const MainView = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [apiQuestion, setApiQuestion] = useState("");
   const [isReading, setIsReading] = useState(false);
   const userInputRef = useRef<HTMLTextAreaElement>(null);
+  const balanceContext = useContext(BalanceContext);
+
+  if (!balanceContext) {
+    throw new Error("BalanceContext must be used within a BalanceProvider");
+  }
+
+  const { balance, setBalance } =
+    balanceContext;
 
   const handlePlayClick = () => {
     setIsPlaying(true);
@@ -34,7 +43,7 @@ const MainView = () => {
   useEffect(() => {
     const handleKeyPress = (event: any) => {
       if (event.key === "Enter") {
-        shoot(Date.now() + 800);
+        handleWin();
         if (userInputRef?.current) {
           gcdService
             .evaluateResponse(userInputRef?.current.value)
@@ -50,6 +59,11 @@ const MainView = () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
   }, []);
+
+  function handleWin() {
+    shoot(Date.now() + 800);
+    setBalance((prev) => prev + 1);
+  }
 
   const languageContext = useContext(LanguageContext);
 
