@@ -1,2 +1,6 @@
 functions-framework
 flask
+langchain 
+openai
+black
+isort
