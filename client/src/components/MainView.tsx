@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import confetti from "canvas-confetti";
 import ChatBubble from "./ChatBubble";
 import { icons } from "../assets/icons.const";
@@ -8,6 +8,7 @@ import { gcdService } from "../api/services/gcdService";
 const MainView = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [apiQuestion, setApiQuestion] = useState("...");
+  const userInputRef = useRef<HTMLTextAreaElement>(null);
 
   const handlePlayClick = () => {
     setIsPlaying(true);
@@ -17,6 +18,13 @@ const MainView = () => {
     const handleKeyPress = (event: any) => {
       if (event.key === "Enter") {
         shoot(Date.now() + 800);
+        if (userInputRef?.current) {
+          gcdService
+            .evaluateResponse(userInputRef?.current.value)
+            .then((response) => {
+              console.log("evaluation response=>", response);
+            });
+        }
       }
     };
 
@@ -106,6 +114,7 @@ const MainView = () => {
             isServer={false}
             isPlaying={isPlaying}
             onPlayClick={handlePlayClick}
+            userInputRef={userInputRef}
           />
         )}
       </div>

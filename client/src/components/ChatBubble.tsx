@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { LegacyRef, useState } from "react";
 
 type ChatBubbleProps = {
   isServer?: boolean;
   isPlaying: boolean;
   onPlayClick: () => void;
   content?: string;
+  userInputRef?: LegacyRef<HTMLTextAreaElement> | undefined;
 };
 
 const ChatBubble = ({
@@ -12,6 +13,7 @@ const ChatBubble = ({
   isPlaying,
   onPlayClick,
   content,
+  userInputRef,
 }: ChatBubbleProps) => {
   const [userInput, setUserInput] = useState("");
 
@@ -34,6 +36,7 @@ const ChatBubble = ({
         ) : (
           <textarea
             className="w-full bg-transparent outline-none resize-none"
+            ref={userInputRef}
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
             placeholder="Type your message..."
