@@ -1,1 +1,1 @@
-{"root":["./src/app.tsx","./src/main.tsx"],"version":"5.6.2"}
+{"root":["./src/app.tsx","./src/data.const.ts","./src/main.tsx","./src/contexts/langselectedcontextprovider.tsx","./src/api/axiosprovider.ts","./src/api/services/gcdservice.ts","./src/components/chatbubble.tsx","./src/components/header.tsx","./src/components/languagechanger.tsx","./src/components/languagesdropdown.tsx","./src/components/layout.tsx","./src/components/mainview.tsx"],"version":"5.6.2"}
