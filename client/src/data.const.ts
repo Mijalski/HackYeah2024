@@ -17,3 +17,15 @@ export const LANGUAGES = [{
     icon: icons.DE_FLAG,
     shortcut: "de"
 }] as const;
+
+export const LANGUAGE_LEVELS = [{
+    level: "A1"
+},{
+    level: "A2"
+},{
+    level: "B1"
+},{
+    level: "B2"
+},{
+    level: "C1"
+},] as const;

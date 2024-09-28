@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { LanguageContext } from "../Contexts/LangSelectedContextProvider";
 import LanguagesDropdown from "./LanguagesDropdown";
 import LanguageSwitch from "./LanguageSwitch";
+import LanguageLevelsDropdown from "./LanguageLevelsDropdown";
 
 const LanguageChanger = () => {
   const languageContext = useContext(LanguageContext);
@@ -10,7 +11,7 @@ const LanguageChanger = () => {
     throw new Error("LanguageContext must be used within a LanguageProvider");
   }
 
-  const { fromLanguage, setFromLanguage, toLanguage, setToLanguage } =
+  const { fromLanguage, setFromLanguage, toLanguage, setToLanguage, toLevel, setToLevel } =
     languageContext;
 
   return (
@@ -34,6 +35,13 @@ const LanguageChanger = () => {
           setToLanguage(data);
         }}
       />
+      <LanguageLevelsDropdown 
+        selectedLevel={{
+          level: toLevel?.level
+        }}
+        handleOnClickDropdownItem={(data) => {
+          setToLevel(data);
+        }}/>
     </div>
   );
 };

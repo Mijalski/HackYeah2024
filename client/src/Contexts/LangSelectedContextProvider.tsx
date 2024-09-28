@@ -7,13 +7,16 @@ import {
   useState,
 } from "react";
 import { LanguageType } from "../components/LanguagesDropdown";
-import { LANGUAGES } from "../data.const";
+import { LANGUAGE_LEVELS, LANGUAGES } from "../data.const";
+import { LanguageLevel } from "../components/LanguageLevelsDropdown";
 
 interface LanguageContextType {
   fromLanguage: LanguageType;
   setFromLanguage: Dispatch<SetStateAction<LanguageType>>;
   toLanguage: LanguageType;
   setToLanguage: Dispatch<SetStateAction<LanguageType>>;
+  toLevel: LanguageLevel;
+  setToLevel: Dispatch<SetStateAction<LanguageLevel>>;
 }
 
 type LanguageProviderProps = {
@@ -35,10 +38,13 @@ export const LanguageContextProvider: FC<LanguageProviderProps> = ({
     language: LANGUAGES[1].language,
     icon: LANGUAGES[1].icon,
   });
+  const [toLevel, setToLevel] = useState<LanguageLevel>({
+    level: LANGUAGE_LEVELS[1].level
+  });
 
   return (
     <LanguageContext.Provider
-      value={{ fromLanguage, setFromLanguage, toLanguage, setToLanguage }}
+      value={{ fromLanguage, setFromLanguage, toLanguage, setToLanguage, toLevel, setToLevel }}
     >
       {children}
     </LanguageContext.Provider>
