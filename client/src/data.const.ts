@@ -9,4 +9,7 @@ export const LANGUAGES = [{
 }, {
     language: "spanish",
     icon: icons.ES_FLAG
+}, {
+    language: "german",
+    icon: icons.DE_FLAG
 }] as const;
