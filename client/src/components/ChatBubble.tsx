@@ -1,4 +1,3 @@
-// ChatBubble.tsx
 import { useState } from "react";
 
 type ChatBubbleProps = {
@@ -14,10 +13,14 @@ const ChatBubble = ({ isServer = true, isPlaying, onPlayClick }: ChatBubbleProps
     ? "bg-gray-200 text-black self-start"
     : "bg-blue-500 text-white self-end";
 
+  const tailStyle = isServer
+    ? "chat-bubble-tail-left"
+    : "chat-bubble-tail-right";
+
   return (
-    <div className="mb-2 w-96">
+    <div className="mb-2 w-96 flex">
       <div
-        className={`w-full rounded-3xl p-4 ${bubbleStyle} flex items-center justify-center`}
+        className={`relative w-full rounded-3xl p-4 ${bubbleStyle} flex items-center justify-center`}
         style={{ wordBreak: "break-word", cursor: !isPlaying ? "pointer" : "default" }}
         onClick={!isPlaying ? onPlayClick : undefined}
       >
@@ -42,6 +45,7 @@ const ChatBubble = ({ isServer = true, isPlaying, onPlayClick }: ChatBubbleProps
         ) : (
           <div className="text-6xl text-center">Play ▶️</div>
         )}
+        <div className={tailStyle}></div>
       </div>
     </div>
   );
