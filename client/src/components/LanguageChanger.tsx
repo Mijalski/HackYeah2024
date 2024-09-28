@@ -1,8 +1,7 @@
 import { useContext } from "react";
 import { LanguageContext } from "../Contexts/LangSelectedContextProvider";
 import LanguagesDropdown from "./LanguagesDropdown";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import LanguageSwitch from "./LanguageSwitch";
 
 const LanguageChanger = () => {
   const languageContext = useContext(LanguageContext);
@@ -25,10 +24,7 @@ const LanguageChanger = () => {
           setFromLanguage(data);
         }}
       />
-      <div className="flex flex-col items-center justify-center">
-        <FontAwesomeIcon icon={faArrowLeft} className="text-[#acb5b6]" />
-        <FontAwesomeIcon icon={faArrowRight} className="text-[#acb5b6]" />
-      </div>
+      <LanguageSwitch />
       <LanguagesDropdown
         selectedLanguage={{
           language: toLanguage?.language,
