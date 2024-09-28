@@ -5,5 +5,7 @@ export const icons = {
     ES_FLAG: "https://flagicons.lipis.dev/flags/4x3/es.svg",
     US_FLAG: "https://flagicons.lipis.dev/flags/4x3/us.svg",
     PL_FLAG: "https://flagicons.lipis.dev/flags/4x3/pl.svg",
-    GOLD_CUP: "https://svgshare.com/i/1Atk.svg"
+    GOLD_CUP: "https://svgshare.com/i/1Atk.svg",
+    LEAF_TREE: "https://svgshare.com/i/1AtX.svg",
+    CONIFER_TREE: "https://svgshare.com/i/1AuZ.svg"
 } as const;

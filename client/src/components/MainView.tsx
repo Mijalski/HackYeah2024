@@ -13,7 +13,7 @@ const MainView = () => {
   useEffect(() => {
     const handleKeyPress = (event: any) => {
       if (event.key === 'Enter') {
-        createEmojiConfetti();
+        shoot(Date.now() + 800);
       }
     };
 
@@ -23,41 +23,43 @@ const MainView = () => {
     };
   }, []);
 
-  const createEmojiConfetti = () => {
-    const end = Date.now() + 100;
-    const emojis = ['😍', '👏', '🎉', '💖', '😻', '🥳', '🙌', '💯'];
+  var emoji1 = confetti.shapeFromText({ text: '😍'});
+  var emoji2 = confetti.shapeFromText({ text: '👏'});
+  var emoji3 = confetti.shapeFromText({ text: '🎉'});
+  var emoji4 = confetti.shapeFromText({ text: '💖'});
+  var emoji5 = confetti.shapeFromText({ text: '😻'});
+  var emoji6 = confetti.shapeFromText({ text: '🥳'});
+  var emoji7 = confetti.shapeFromText({ text: '🙌'});
+  var emoji8  = confetti.shapeFromText({ text: '💯'});
 
-    function frame() {
-      emojis.forEach((emoji) => {
-        // Display confetti
-        confetti({
-          particleCount: 10,
-          startVelocity: 20,
-          spread: 360,
-          ticks: 100,
-          origin: { x: Math.random() > 0.5 ? 0 : 1, y: 0 },
-          scalar: 1, // Adjust as needed
-        });
-    
-        // Create emoji overlay
-        const emojiElement = document.createElement('div');
-        emojiElement.style.position = 'absolute';
-        emojiElement.style.fontSize = '24px'; // Adjust size as needed
-        emojiElement.style.left = `${Math.random() * window.innerWidth}px`;
-        emojiElement.style.top = `${Math.random() * window.innerHeight}px`;
-        emojiElement.textContent = emoji;
-        document.body.appendChild(emojiElement);
-    
-        // Optional: Animation or removal after some time
-        setTimeout(() => {
-          emojiElement.remove();
-        }, end);
-      });
-    }
-    
-    frame();
-    
+  var defaults = {
+    shapes: [emoji1, emoji2, emoji3, emoji4, emoji5, emoji6, emoji7, emoji8]
   };
+
+  function shoot(end: number) {
+    (function frame() {
+      confetti({
+        ...defaults,
+        particleCount: 1,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+        scalar: 1.75,
+      });
+      confetti({
+        ...defaults,
+        particleCount: 1,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+        scalar: 1.75,
+      });
+    
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    }());
+  }
 
   return (
     <main className="bg-background w-full h-[100vh] flex items-center flex-col z-10">
