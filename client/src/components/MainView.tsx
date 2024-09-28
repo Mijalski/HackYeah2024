@@ -8,7 +8,7 @@ const MainView = () => {
         <ChatBubble isServer={false} />
       </div>
       <img
-        src="../../public/land.svg"
+        src="https://svgshare.com/i/1Auq.svg"
         className="absolute -bottom-[140px] z-0 select-none"
       />
     </main>
