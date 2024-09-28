@@ -73,8 +73,14 @@ const MainView = () => {
   }
 
   useEffect(() => {
-    setIsPlaying(false);
     setApiQuestion("...");
+    if (isPlaying) {
+      gcdService
+        .getPrompt(toLevel.level, fromLanguage.shortcut, toLanguage.shortcut)
+        .then((response) => {
+          setApiQuestion(response.data.question);
+        });
+    }
   }, [fromLanguage, toLanguage, toLevel.level]);
 
   useEffect(() => {
