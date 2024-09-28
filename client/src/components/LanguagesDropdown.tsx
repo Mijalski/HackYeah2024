@@ -28,7 +28,7 @@ const LanguagesDropdown = ({
       <DropdownMenu.Portal>
         <DropdownMenu.Content
           sideOffset={5}
-          className="bg-white rounded-lg shadow-lg py-2 w-48 mt-2 border border-gray-200 z-50"
+          className="bg-white rounded-lg shadow-lg py-2 w-48 border border-gray-200 z-50"
         >
           {LANGUAGES.map((el) => (
             <DropdownMenu.Item
