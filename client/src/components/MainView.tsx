@@ -8,6 +8,7 @@ import { gcdService } from "../api/services/gcdService";
 const MainView = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [apiQuestion, setApiQuestion] = useState("");
+  const [isReading, setIsReading] = useState(false);
   const userInputRef = useRef<HTMLTextAreaElement>(null);
 
   const handlePlayClick = () => {
@@ -15,14 +16,20 @@ const MainView = () => {
   };
 
   const handleSoundClick = (prompt: string | undefined) => {
-    if (prompt) {
-      gcdService.readPrompt(prompt).then((response) => {
-        const audioUrl = URL.createObjectURL(response.data);
-        const audio = new Audio(audioUrl);
-        audio.play();
-      });
+    if (prompt && !isReading) {
+      gcdService
+        .readPrompt(prompt)
+        .then((response) => {
+          const audioUrl = URL.createObjectURL(response);
+          const audio = new Audio(audioUrl);
+          audio.play();
+          setIsReading(true);
+          audio.onended = () => {
+            setIsReading(false);
+          };
+        });
     }
-  };
+  }
 
   useEffect(() => {
     const handleKeyPress = (event: any) => {

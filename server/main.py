@@ -127,7 +127,6 @@ def post_evaluation(request: Request):
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
-
 def post_read_prompt(request: Request):
     if request.method == 'OPTIONS':
         headers = {
