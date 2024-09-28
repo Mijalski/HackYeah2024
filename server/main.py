@@ -1,41 +1,45 @@
 import os
 import random
-
-from flask import Request, jsonify, Response
-from langchain_openai import ChatOpenAI
-from langchain.schema import HumanMessage
-from openai import OpenAI
 from io import BytesIO
+
+from flask import Request, Response, jsonify
+from google.cloud import secretmanager
+from langchain.schema import HumanMessage
+from langchain_openai import ChatOpenAI
+from openai import OpenAI
+
+
+def fetch_openai_api_key():
+    client = secretmanager.SecretManagerServiceClient()
+    response = client.access_secret_version(
+        name="projects/hackyeah-2024/secrets/OPENAI_API_KEY/versions/latest"
+    )
+    return response.payload.data.decode("UTF-8")
 
 
 def get_prompt(request: Request):
-    openai_api_key = os.getenv("OPENAI_API_KEY")
-
     llm = ChatOpenAI(
         model_name="gpt-4o-mini",
-        openai_api_key=openai_api_key,
+        openai_api_key=fetch_openai_api_key(),
         temperature=1.55,
         max_tokens=100,
     )
 
-    from_lang = request.args.get('from', 'pl')
-    to_lang = request.args.get('to', 'en')
-    level = request.args.get('level', 'A1')
+    from_lang = request.args.get("from", "pl")
+    to_lang = request.args.get("to", "en")
+    level = request.args.get("level", "A1")
 
     prompt_options = [
-    f"""Generate a {level} level small talk question for language learning. 
+        f"""Generate a {level} level small talk question for language learning. 
     The question should be in {to_lang}, and the context is that the learner's native language is {from_lang}. 
     Make sure to return only the question and nothing else.""",
-
-    f"""Ask the user to translate a {level} level small talk question from their native language {from_lang} to {to_lang}. 
+        f"""Ask the user to translate a {level} level small talk question from their native language {from_lang} to {to_lang}. 
     Make sure to return only the question and nothing else. Start the answer with Please translate:""",
-
-    f"""Ask the user to translate a word they might need to learn at {level} level from {from_lang} to {to_lang}. 
+        f"""Ask the user to translate a word they might need to learn at {level} level from {from_lang} to {to_lang}. 
     Make sure to return only the task and nothing else.""",
-
-    f"""Ask the user to conjugate a common verb they might need to learn at {level} level in {to_lang}. 
-    Make sure to return only the task and nothing else."""
-]
+        f"""Ask the user to conjugate a common verb they might need to learn at {level} level in {to_lang}. 
+    Make sure to return only the task and nothing else.""",
+    ]
 
     selected_prompt = random.choice(prompt_options)
 
@@ -44,19 +48,18 @@ def get_prompt(request: Request):
 
     return jsonify({"question": response.content})
 
+
 def post_evaluation(request: Request):
     data = request.get_json()
-    original_prompt = data.get('prompt')
-    level = data.get('level', 'A1')
-    from_lang = data.get('from', 'en')
-    to_lang = data.get('to', 'en')
-    user_response = data.get('response')
-
-    openai_api_key = os.getenv("OPENAI_API_KEY")
+    original_prompt = data.get("prompt")
+    level = data.get("level", "A1")
+    from_lang = data.get("from", "en")
+    to_lang = data.get("to", "en")
+    user_response = data.get("response")
 
     llm = ChatOpenAI(
         model_name="gpt-4o-mini",
-        openai_api_key=openai_api_key,
+        openai_api_key=fetch_openai_api_key(),
         temperature=0.1,
         max_tokens=100,
     )
@@ -80,16 +83,16 @@ def post_evaluation(request: Request):
 
     return jsonify({"evaluation": evaluation_result})
 
-def post_readPrompt(request: Request):
-    api_key = os.getenv('OPENAI_API_KEY')
-    client = OpenAI(api_key=api_key)
-    
+
+def post_read_prompt(request: Request):
+    client = OpenAI(api_key=fetch_openai_api_key())
+
     try:
         data = request.get_json()
-        if not data or 'prompt' not in data:
+        if not data or "prompt" not in data:
             return jsonify({"error": "Invalid request. 'prompt' is required."}), 400
 
-        original_prompt = data['prompt']
+        original_prompt = data["prompt"]
         response = client.audio.speech.create(
             model="tts-1",
             voice="alloy",
@@ -102,8 +105,8 @@ def post_readPrompt(request: Request):
 
         return Response(
             audio_stream,
-            mimetype='audio/mpeg',
-            headers={"Content-Disposition": "attachment; filename=speech.mp3"}
+            mimetype="audio/mpeg",
+            headers={"Content-Disposition": "attachment; filename=speech.mp3"},
         )
     except Exception as e:
         return jsonify({"error": str(e)}), 500

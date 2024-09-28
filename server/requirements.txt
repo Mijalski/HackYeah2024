@@ -2,3 +2,6 @@ functions-framework
 langchain
 langchain-openai
 openai
+google-cloud-secret-manager
+black
+isort
