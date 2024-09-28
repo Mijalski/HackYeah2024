@@ -13,6 +13,18 @@ const MainView = () => {
     setIsPlaying(true);
   };
 
+  const handleSoundClick = (prompt: string | undefined) => {
+    if (prompt) {
+      gcdService
+        .readPrompt(prompt)
+        .then((response) => {
+          const audioUrl = URL.createObjectURL(response.data);
+          const audio = new Audio(audioUrl);
+          audio.play(); 
+        });
+    }
+  }
+
   useEffect(() => {
     const handleKeyPress = (event: any) => {
       if (event.key === "Enter") {
@@ -100,6 +112,7 @@ const MainView = () => {
           isPlaying={isPlaying}
           onPlayClick={handlePlayClick}
           content={apiQuestion}
+          onSoundClick={handleSoundClick}
         />
         {isPlaying && (
           <ChatBubble

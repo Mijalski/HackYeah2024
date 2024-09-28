@@ -5,6 +5,7 @@ type ChatBubbleProps = {
   isPlaying: boolean;
   onPlayClick: () => void;
   content?: string;
+  onSoundClick?: (content: string | undefined) => void;
 };
 
 const ChatBubble = ({
@@ -12,6 +13,7 @@ const ChatBubble = ({
   isPlaying,
   onPlayClick,
   content,
+  onSoundClick,
 }: ChatBubbleProps) => {
   const [userInput, setUserInput] = useState("");
 
@@ -24,7 +26,7 @@ const ChatBubble = ({
     : "chat-bubble-tail-right";
 
   return isPlaying ? (
-    <div className="mb-2 w-96 flex">
+    <div className="relative mb-2 w-96 flex items-center">
       <div
         className={`relative w-full rounded-3xl p-4 ${bubbleStyle} flex items-center justify-center animate-fade-in-bottom`}
         style={{ wordBreak: "break-word" }}
@@ -43,6 +45,14 @@ const ChatBubble = ({
         )}
         <div className={tailStyle}></div>
       </div>
+      {isServer && content && content.length > 1 && (
+        <div
+          className="absolute right-0 translate-x-4 flex items-center cursor-pointer"
+          onClick={() => onSoundClick?.(content)}
+        >
+          <div className="text-2xl scale-150">🔊</div>
+        </div>
+      )}
     </div>
   ) : (
     <div
