@@ -1,7 +1,8 @@
-from flask import Request, jsonify
-from langchain.chat_models import ChatOpenAI
-from langchain.schema import HumanMessage
 import os
+
+from flask import Request, jsonify
+from langchain_openai import ChatOpenAI
+from langchain.schema import HumanMessage
 
 
 def hello_world(request: Request):
@@ -14,7 +15,12 @@ def hello_world(request: Request):
         max_tokens=100,
     )
 
-    prompt = HumanMessage(content="Explain the significance of data engineering in AI workflows.")
+    request_json = request.get_json()
+    prompt_text = request_json["prompt"]
+
+    prompt = HumanMessage(
+        content=prompt_text
+    )
 
     response = llm([prompt])
 
