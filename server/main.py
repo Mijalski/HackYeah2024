@@ -5,6 +5,7 @@ from flask import Request, jsonify
 from langchain_openai import ChatOpenAI
 from langchain.schema import HumanMessage
 
+
 def get_prompt(request: Request):
     openai_api_key = os.getenv("OPENAI_API_KEY")
 

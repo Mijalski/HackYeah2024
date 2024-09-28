@@ -20,6 +20,17 @@ gcloud functions deploy hello_world \
     --service-account cloud-functions-sa@hackyeah-2024.iam.gserviceaccount.com
 ```
 
+powershell
+```
+gcloud functions deploy get_response `
+  --runtime python312 `
+  --trigger-http `
+  --allow-unauthenticated `
+  --service-account cloud-functions-sa@hackyeah-2024.iam.gserviceaccount.com `
+  --region=europe-central2
+```
+
+
 ### Trigger Cloud Function locally
 ```
 pip install -r .\server\requirements.txt
