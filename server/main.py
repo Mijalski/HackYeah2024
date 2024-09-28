@@ -11,17 +11,17 @@ def hello_world(request: Request):
     llm = ChatOpenAI(
         model_name="gpt-4o-mini",
         openai_api_key=openai_api_key,
-        temperature=0.7,
+        temperature=0.5,
         max_tokens=100,
     )
 
-    request_json = request.get_json()
-    prompt_text = request_json["prompt"]
-
+    from_lang = request.args.get('from', 'en')
+    to_lang = request.args.get('to', 'en')
+    level = request.args.get('level', 'A1')
     prompt = HumanMessage(
-        content=prompt_text
+        content=f"Generate a {level} level small talk question for language learning. "
+                f"The question should be in {to_lang}, and the context is that the learner's native language is {from_lang}."
+                f"Make sure to return only the question and nothing else."
     )
-
     response = llm([prompt])
-
-    return jsonify({"response": response.content})
+    return jsonify({"question": response.content})
