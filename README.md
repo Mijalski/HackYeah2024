@@ -26,7 +26,7 @@ pip install -r .\server\requirements.txt
 ```
 
 ```
-functions-framework --target=hello_world
+functions-framework --target=get_prompt
 ```
 
 bash

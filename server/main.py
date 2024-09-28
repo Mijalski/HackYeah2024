@@ -5,8 +5,7 @@ from flask import Request, jsonify
 from langchain_openai import ChatOpenAI
 from langchain.schema import HumanMessage
 
-
-def hello_world(request: Request):
+def get_prompt(request: Request):
     openai_api_key = os.getenv("OPENAI_API_KEY")
 
     llm = ChatOpenAI(
@@ -26,7 +25,7 @@ def hello_world(request: Request):
         f"Make sure to return only the question and nothing else.",
 
         f"Ask the user to translate a {level} level small talk question from their native language {from_lang} to {to_lang}. "
-        f"Make sure to return only the task and nothing else.",
+        f"Make sure to return only the question and nothing else.",
 
         f"Ask the user to translate a word they might need to learn at {level} level from {from_lang} to {to_lang}. "
         f"Make sure to return only the task and nothing else.",
