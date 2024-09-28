@@ -29,9 +29,11 @@ def get_prompt(request: Request):
     level = request.args.get("level", "A1")
 
     prompt_options = [
-        f"""Generate a {level} level small talk question for language learning. 
+        f"""
+        Generate a {level} level small talk question for language learning. 
         The question should be in {to_lang}, and the context is that the learner's native language is {from_lang}. 
-        Make sure to return only the question and nothing else.""",
+        Make sure to return only the question and nothing else.
+        """,
 
         f"""
         I would like you to generate a translation request for a small talk question.
@@ -41,7 +43,7 @@ def get_prompt(request: Request):
         The question should originate in the source language and should be translated into target language.
 
         Here are your instructions:
-        - Automatically establish [Full Target Language Name In Source Language] (for example, en is English, pl is Polish)
+        - Automatically establish [Full Target Language Name In Source Language] (for example, en is english, pl is polish)
         - Start your response with: 'Please translate to [Full Target Language Name In Source Language]:' phrase in {from_lang}.
         - Only return the small talk question and nothing else.
         - Ensure the response follows the format mentioned above.
@@ -49,11 +51,26 @@ def get_prompt(request: Request):
         Now, ask the user to translate a small talk question from {from_lang} to {to_lang}.
         """
 
-        f"""Ask the user to translate a word they might need to learn at {level} level from {from_lang} to {to_lang}. 
-        Make sure to return only the task and nothing else.""",
+        f"""
+        Ask the user to translate a word they might need to learn at {level} level from {from_lang} to {to_lang}.
+        Ensure the task is returned in the language of the word to be translated, {from_lang}.
+        Provide only the translation task without additional explanation.
+        Automatically establish [FULL LANGUAGE NAMED BASED ON {to_lang}] (for example, en is english, pl is polish)
+
+        Examples:
+        1) If the word to translate is in Polish, the question should look like:
+        Proszę przetłumacz słowo "doskonały" na język angielski.
+
+        2) If the word to translate is in English, the question should look like:
+        Please translate the word "love" to polish.
+        """,
         
-        f"""Ask the user to conjugate a common verb they might need to learn at {level} level in {to_lang}. 
-        Make sure to return only the task and nothing else.""",
+        f"""
+        Ask the user to conjugate a common verb they might need to learn at {level} level in {to_lang}. 
+        Make sure to return only the task and nothing else.
+        Return the task in {to_lang} language. 
+        Every word in the task statement should be in {to_lang}.
+        """,
     ]
 
     selected_prompt = random.choice(prompt_options)
