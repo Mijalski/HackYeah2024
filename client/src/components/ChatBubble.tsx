@@ -26,7 +26,7 @@ const ChatBubble = ({
   return isPlaying ? (
     <div className="mb-2 w-96 flex">
       <div
-        className={`relative w-full rounded-3xl p-4 ${bubbleStyle} flex items-center justify-center`}
+        className={`relative w-full rounded-3xl p-4 ${bubbleStyle} flex items-center justify-center animate-fade-in-bottom`}
         style={{ wordBreak: "break-word" }}
       >
         {isServer ? (
