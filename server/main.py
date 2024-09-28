@@ -11,7 +11,7 @@ def hello_world(request: Request):
     llm = ChatOpenAI(
         model_name="gpt-4o-mini",
         openai_api_key=openai_api_key,
-        temperature=0.5,
+        temperature=1.5,
         max_tokens=100,
     )
 
