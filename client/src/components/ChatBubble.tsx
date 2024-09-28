@@ -63,7 +63,7 @@ const ChatBubble = ({
           className="absolute right-0 translate-x-4 flex items-center cursor-pointer"
           onClick={() => onSoundClick?.(content)}
         >
-          <div className="text-2xl scale-150">🔊</div>
+          <div className="text-2xl scale-150 cursor-pointer">🔊</div>
         </div>
       )}
     </div>
@@ -72,7 +72,7 @@ const ChatBubble = ({
       className="bg-[#FFE53B] hover:bg-[#FFDE08] border-[#FFC024] border-2 w-full rounded-3xl p-4 text-[#F1FEFF] flex items-center justify-center cursor-pointer"
       onClick={onPlayClick}
     >
-      <div className="px-12 py-3 text-6xl text-center font-bold stroke-cyan-500 [text-shadow:_2px_2px_0_#FFC024]">
+      <div className="select-none px-12 py-3 text-6xl text-center font-bold stroke-cyan-500 [text-shadow:_2px_2px_0_#FFC024]">
         PLAY
       </div>
     </div>
