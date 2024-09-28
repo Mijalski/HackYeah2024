@@ -5,11 +5,14 @@ import { icons } from "../assets/icons.const";
 import { LanguageContext } from "../Contexts/LangSelectedContextProvider";
 import { gcdService } from "../api/services/gcdService";
 import { BalanceContext } from "../Contexts/BalanceContextProvider";
+import FeedbackBubble from "./FeedbackBubble";
 
 const MainView = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [apiQuestion, setApiQuestion] = useState("");
   const [isReading, setIsReading] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [feedback, setFeedback] = useState("");
   const userInputRef = useRef<HTMLTextAreaElement>(null);
   const balanceContext = useContext(BalanceContext);
 
@@ -17,8 +20,7 @@ const MainView = () => {
     throw new Error("BalanceContext must be used within a BalanceProvider");
   }
 
-  const { balance, setBalance } =
-    balanceContext;
+  const { balance, setBalance } = balanceContext;
 
   const handlePlayClick = () => {
     setIsPlaying(true);
@@ -26,30 +28,27 @@ const MainView = () => {
 
   const handleSoundClick = (prompt: string | undefined) => {
     if (prompt && !isReading) {
-      gcdService
-        .readPrompt(prompt)
-        .then((response) => {
-          const audioUrl = URL.createObjectURL(response);
-          const audio = new Audio(audioUrl);
-          audio.play();
-          setIsReading(true);
-          audio.onended = () => {
-            setIsReading(false);
-          };
-        });
+      gcdService.readPrompt(prompt).then((response) => {
+        const audioUrl = URL.createObjectURL(response);
+        const audio = new Audio(audioUrl);
+        audio.play();
+        setIsReading(true);
+        audio.onended = () => {
+          setIsReading(false);
+        };
+      });
     }
-  }
+  };
 
   useEffect(() => {
     const handleKeyPress = (event: any) => {
       if (event.key === "Enter") {
         handleWin();
         if (userInputRef?.current) {
-          gcdService
-            .evaluateResponse(userInputRef?.current.value)
-            .then((response) => {
-              console.log("evaluation response=>", response);
-            });
+          gcdService.evaluateResponse(userInputRef?.current.value).then((response) => {
+            setShowFeedback(true);
+            setFeedback(response.evaluation);
+          });
         }
       }
     };
@@ -148,6 +147,9 @@ const MainView = () => {
             onPlayClick={handlePlayClick}
             userInputRef={userInputRef}
           />
+        )}
+        {showFeedback && (
+          <FeedbackBubble content={feedback} />
         )}
       </div>
       <img

@@ -12,7 +12,8 @@ export const gcdService = {
         return await axios.get(`${BASE_URL}/get_prompt?level=${level}&from=${from}&to=${to}`)
     },
     evaluateResponse: async (response: string) => {
-        return await axios.post(`${BASE_URL}/post_evaluation`, { response })
+        const r = await axios.post(`${BASE_URL}/post_evaluation`, { response });
+        return r.data;
     },
     readPrompt: async (prompt: string) => {
         if (audioCache.has(prompt)) {
