@@ -11,9 +11,9 @@ import { LANGUAGES } from "../data.const";
 
 interface LanguageContextType {
   fromLanguage: LanguageType;
-  setFromLanguage: SetStateAction<Dispatch<LanguageType>>;
+  setFromLanguage: Dispatch<SetStateAction<LanguageType>>;
   toLanguage: LanguageType;
-  setToLanguage: SetStateAction<Dispatch<LanguageType>>;
+  setToLanguage: Dispatch<SetStateAction<LanguageType>>;
 }
 
 type LanguageProviderProps = {

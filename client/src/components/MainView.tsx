@@ -9,7 +9,7 @@ const MainView = () => {
       </div>
       <img
         src="https://svgshare.com/i/1Auq.svg"
-        className="absolute -bottom-[140px] z-0 select-none"
+        className="relative -bottom-[140px] z-0 select-none"
       />
     </main>
   );

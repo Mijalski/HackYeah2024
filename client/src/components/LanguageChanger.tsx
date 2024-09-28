@@ -13,7 +13,7 @@ const LanguageChanger = () => {
 
   const { fromLanguage, setFromLanguage, toLanguage, setToLanguage } =
     languageContext;
-  console.log(setFromLanguage, setToLanguage);
+
   return (
     <div className="flex space-x-4">
       <LanguagesDropdown
@@ -21,7 +21,9 @@ const LanguageChanger = () => {
           language: fromLanguage?.language,
           icon: fromLanguage?.icon,
         }}
-        languages={[]}
+        handleOnClickDropdownItem={(data) => {
+          setFromLanguage(data);
+        }}
       />
       <div className="flex flex-col items-center justify-center">
         <FontAwesomeIcon icon={faArrowLeft} className="text-[#acb5b6]" />
@@ -32,7 +34,9 @@ const LanguageChanger = () => {
           language: toLanguage?.language,
           icon: toLanguage?.icon,
         }}
-        languages={[]}
+        handleOnClickDropdownItem={(data) => {
+          setToLanguage(data);
+        }}
       />
     </div>
   );

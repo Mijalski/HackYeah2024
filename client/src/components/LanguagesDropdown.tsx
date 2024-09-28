@@ -1,34 +1,49 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { LANGUAGES } from "../data.const";
 
 export type LanguageType = { language: string; icon: any };
 
 type LanguageDropdownProps = {
   selectedLanguage: LanguageType;
-  languages: LanguageType[];
+  handleOnClickDropdownItem: (arg0: LanguageType) => void;
 };
 
 const LanguagesDropdown = ({
   selectedLanguage,
-  languages,
+  handleOnClickDropdownItem,
 }: LanguageDropdownProps) => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button className="flex bg-[#E7F1F2] space-x-4 py-1 pl-3 pr-14 justify-center items-center rounded-lg font-light select-none">
-          <img src={selectedLanguage.icon} className="w-8 h-9" />
+        <button className="flex bg-[#E7F1F2] space-x-4 py-2 px-4 justify-center items-center rounded-lg font-light select-none transition-colors duration-200 hover:bg-[#D0E6E8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A1CBD1]">
+          <img
+            src={selectedLanguage.icon}
+            className="w-8 h-9"
+            alt={`${selectedLanguage.language} icon`}
+          />
           <p className="text-xl">{selectedLanguage.language}</p>
         </button>
       </DropdownMenu.Trigger>
+
       <DropdownMenu.Portal>
-        <DropdownMenu.Content className="DropdownMenuContent" sideOffset={5}>
-          {languages.map((el) => {
-            return (
-              <DropdownMenu.Item className="DropdownMenuItem">
-                {el.icon}
-                {el.language}
-              </DropdownMenu.Item>
-            );
-          })}
+        <DropdownMenu.Content
+          sideOffset={5}
+          className="bg-white rounded-lg shadow-lg py-2 w-48 mt-2 border border-gray-200 z-50"
+        >
+          {LANGUAGES.map((el) => (
+            <DropdownMenu.Item
+              key={el.language}
+              className="flex items-center space-x-3 px-4 py-2 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none cursor-pointer transition-colors duration-200"
+              onClick={() => handleOnClickDropdownItem(el)}
+            >
+              <img
+                src={el.icon}
+                className="w-5 h-5"
+                alt={`${el.language} icon`}
+              />
+              <span className="text-gray-700">{el.language}</span>
+            </DropdownMenu.Item>
+          ))}
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
