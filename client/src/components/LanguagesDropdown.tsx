@@ -15,7 +15,7 @@ const LanguagesDropdown = ({
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button className="flex bg-[#E7F1F2] space-x-4 py-2 px-4 justify-center items-center rounded-lg font-light select-none transition-colors duration-200 hover:bg-[#D0E6E8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A1CBD1]">
+        <button className="flex bg-bgPrimary space-x-4 py-2 px-4 justify-center items-center rounded-lg font-light select-none transition-colors duration-200 hover:bg-[#D0E6E8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A1CBD1]">
           <img
             src={selectedLanguage.icon}
             className="w-8 h-9"

@@ -1,10 +1,12 @@
+import { icons } from "./assets/icons.const";
+
 export const LANGUAGES = [{
     language: "polish",
-    icon: "https://flagicons.lipis.dev/flags/4x3/pl.svg"
+    icon: icons.PL_FLAG
 }, {
     language: "english",
-    icon: "https://flagicons.lipis.dev/flags/4x3/us.svg"
+    icon: icons.US_FLAG
 }, {
     language: "spanish",
-    icon: "https://flagicons.lipis.dev/flags/4x3/es.svg"
+    icon: icons.ES_FLAG
 }] as const;

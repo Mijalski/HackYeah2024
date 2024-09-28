@@ -1,3 +1,4 @@
+import { icons } from "../assets/icons.const";
 import ChatBubble from "./ChatBubble";
 
 const MainView = () => {
@@ -8,7 +9,7 @@ const MainView = () => {
         <ChatBubble isServer={false} />
       </div>
       <img
-        src="https://svgshare.com/i/1Auq.svg"
+        src={icons.LAND}
         className="relative -bottom-[140px] z-0 select-none"
       />
     </main>

@@ -1,11 +1,17 @@
 import Layout from "./components/Layout";
+import AchievementCountContextProvider from "./Contexts/AchievementCountProvider";
+import BalanceContextProvider from "./Contexts/BalanceContextProvider";
 import { LanguageContextProvider } from "./Contexts/LangSelectedContextProvider";
 
 function App() {
   return (
-    <LanguageContextProvider>
-      <Layout />
-    </LanguageContextProvider>
+    <AchievementCountContextProvider>
+      <LanguageContextProvider>
+        <BalanceContextProvider>
+          <Layout />
+        </BalanceContextProvider>
+      </LanguageContextProvider>
+    </AchievementCountContextProvider>
   );
 }
 
