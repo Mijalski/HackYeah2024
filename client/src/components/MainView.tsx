@@ -3,9 +3,11 @@ import confetti from "canvas-confetti";
 import ChatBubble from "./ChatBubble";
 import { icons } from "../assets/icons.const";
 import { LanguageContext } from "../Contexts/LangSelectedContextProvider";
+import { gcdService } from "../api/services/gcdService";
 
 const MainView = () => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [apiQuestion, setApiQuestion] = useState("...");
 
   const handlePlayClick = () => {
     setIsPlaying(true);
@@ -30,11 +32,7 @@ const MainView = () => {
     throw new Error("LanguageContext must be used within a LanguageProvider");
   }
 
-  const { fromLanguage, toLanguage } = languageContext;
-
-  useEffect(() => {
-    setIsPlaying(false);
-  }, [fromLanguage, toLanguage]);
+  const { fromLanguage, toLanguage, toLevel } = languageContext;
 
   const emoji1 = confetti.shapeFromText({ text: "😍" });
   const emoji2 = confetti.shapeFromText({ text: "👏" });
@@ -74,10 +72,32 @@ const MainView = () => {
     })();
   }
 
+  useEffect(() => {
+    setIsPlaying(false);
+    setApiQuestion("...");
+  }, [fromLanguage, toLanguage, toLevel.level]);
+
+  useEffect(() => {
+    if (isPlaying) {
+      gcdService
+        .getPrompt(toLevel.level, fromLanguage.shortcut, toLanguage.shortcut)
+        .then((response) => {
+          setApiQuestion(response.data.question);
+          console.log("data that came=>", response);
+        });
+    }
+  }, [isPlaying]);
+
+  console.log("content=>", apiQuestion);
+
   return (
     <main className="bg-background w-full h-[100vh] flex items-center flex-col z-10">
       <div className="z-10 mt-16 gap-y-8 flex flex-col">
-        <ChatBubble isPlaying={isPlaying} onPlayClick={handlePlayClick} />
+        <ChatBubble
+          isPlaying={isPlaying}
+          onPlayClick={handlePlayClick}
+          content={apiQuestion}
+        />
         {isPlaying && (
           <ChatBubble
             isServer={false}

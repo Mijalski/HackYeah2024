@@ -1,7 +1,7 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { LANGUAGES } from "../data.const";
 
-export type LanguageType = { language: string; icon: any };
+export type LanguageType = { language: string; icon: any; shortcut: string };
 
 type LanguageDropdownProps = {
   selectedLanguage: LanguageType;

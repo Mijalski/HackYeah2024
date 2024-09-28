@@ -6,10 +6,10 @@ export const gcdService = {
     getHelloWorld: async () => {
         return await axios.get(`${BASE_URL}/hello_world`)
     },
-    getPrompt: async (level: string, from: string, to: string): Promise<{ question: string }> => {
+    getPrompt: async (level: string, from: string, to: string) => {
         return await axios.get(`${BASE_URL}/get_prompt?level=${level}&from=${from}&to=${to}`)
     },
-    evaluateResponse: async (response: string): Promise<{ evaluation: string }> => {
+    evaluateResponse: async (response: string) => {
         return await axios.post(`${BASE_URL}/post_evaluation`, { response })
     }
 }

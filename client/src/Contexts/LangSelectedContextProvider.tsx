@@ -33,10 +33,12 @@ export const LanguageContextProvider: FC<LanguageProviderProps> = ({
   const [fromLanguage, setFromLanguage] = useState<LanguageType>({
     language: LANGUAGES[0].language,
     icon: LANGUAGES[0].icon,
+    shortcut: LANGUAGES[0].shortcut,
   });
   const [toLanguage, setToLanguage] = useState<LanguageType>({
     language: LANGUAGES[1].language,
     icon: LANGUAGES[1].icon,
+    shortcut: LANGUAGES[1].shortcut,
   });
   const [toLevel, setToLevel] = useState<LanguageLevel>({
     level: LANGUAGE_LEVELS[1].level

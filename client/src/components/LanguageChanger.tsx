@@ -20,6 +20,7 @@ const LanguageChanger = () => {
         selectedLanguage={{
           language: fromLanguage?.language,
           icon: fromLanguage?.icon,
+          shortcut: fromLanguage.shortcut,
         }}
         handleOnClickDropdownItem={(data) => {
           if (data.language === toLanguage.language) {
@@ -35,6 +36,7 @@ const LanguageChanger = () => {
         selectedLanguage={{
           language: toLanguage?.language,
           icon: toLanguage?.icon,
+          shortcut: toLanguage.shortcut,
         }}
         handleOnClickDropdownItem={(data) => {
           if (data.language === fromLanguage.language) {
