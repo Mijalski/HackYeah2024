@@ -20,7 +20,7 @@ def get_prompt(request: Request):
     llm = ChatOpenAI(
         model_name="gpt-4o-mini",
         openai_api_key=fetch_openai_api_key(),
-        temperature=1.55,
+        temperature=1.4,
         max_tokens=100,
     )
 
@@ -30,11 +30,9 @@ def get_prompt(request: Request):
 
     prompt_options = [
         f"""
-        Generate a {level} level small talk question for language learning. 
-        The question should be in {to_lang}.
-        First part of the full output should be "Answer the question: " in {from_lang}
-        Formulate the output in the format:
-        [ORDER TO ASWER THE QUESTION SPECIFIED IN {from_lang}]: "[QUESTION]"
+        Generate a {level} level small talk question for language learning. Be creative and think of something fun.
+        The question should be in {to_lang}. It should encourage small responses for beginnner levels and larger ones
+        for more advanced levels. Return the question only without anything else so it appears as a real conversation starter.
         """,
 
         f"""
@@ -71,7 +69,8 @@ def get_prompt(request: Request):
         """,
     ]
 
-    idx = random.randint(0, len(prompt_options) - 1)
+    # idx = random.randint(0, len(prompt_options) - 1)
+    idx = 0
     selected_prompt = prompt_options[idx]
 
     prompt = HumanMessage(content=selected_prompt)
@@ -126,7 +125,7 @@ def post_evaluation(request: Request):
     evaluation_result = evaluation_response.content
 
     valid = False
-    if evaluation_result.startswith("Valid. "):
+    if evaluation_result.startswith("Valid"):
         valid = True
 
     response = jsonify({"evaluation": evaluation_result, "isValid": valid})
