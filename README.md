@@ -33,3 +33,7 @@ bash
 ```
 curl -X POST http://localhost:8080 -H "Content-Type: application/json" -d '{"message": "Hello from the client!"}'
 ```
+
+### API Docs
+
+http://127.0.0.1:8085?level=[A1|A2|B1|B2]&from=[pl|en|us]&to=[pl|en|us]
