@@ -41,6 +41,14 @@ const MainView = () => {
     }
   };
 
+  type ImageType = {
+    id: number;
+    bottom: number;
+    left: number;
+  };
+
+  const [images, setImages] = useState<ImageType[]>([]);
+
   useEffect(() => {
     const handleKeyPress = (event: any) => {
       if (event.key === "Enter") {
@@ -67,7 +75,21 @@ const MainView = () => {
   function handleWin() {
     shoot(Date.now() + 800);
     setBalance((prev) => prev + 1);
+    placeTree();
   }
+  
+  const placeTree = () => {
+    const newBottom = Math.random() * (300 - 100); //TODO bottom calculation
+    const newLeft = Math.random() * (window.innerWidth - 50); 
+  
+    const newImage: ImageType = {
+      id: Date.now(),
+      bottom: newBottom,
+      left: newLeft,
+    };
+  
+    setImages((prevImages) => [...prevImages, newImage]);
+  };
 
   const languageContext = useContext(LanguageContext);
 
@@ -161,6 +183,21 @@ const MainView = () => {
         {showFeedback && (
           <FeedbackBubble content={feedback} />
         )}
+      </div>
+      <div>  
+        {images.map((image) => (
+          <img
+            key={image.id}
+            src={image.id % 2 == 0 ? icons.CONIFER_TREE : icons.LEAF_TREE}
+            style={{
+              zIndex: 100,
+              position: 'fixed',
+              bottom: `${image.bottom}px`,
+              left: `${image.left}px`,
+              transition: 'top 0.5s, left 0.5s',
+            }}
+          />
+        ))}
       </div>
       <img
         src={icons.LAND}
