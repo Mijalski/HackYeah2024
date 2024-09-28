@@ -37,3 +37,17 @@ curl -X POST http://localhost:8080 -H "Content-Type: application/json" -d '{"mes
 ### API Docs
 
 http://127.0.0.1:8085?level=[A1|A2|B1|B2]&from=[pl|en|us]&to=[pl|en|us]
+
+Sample response
+```
+{
+    "question": "Conjugate the verb \"hacer\" in the present tense for all the pronouns."
+}
+```
+
+```
+{
+    "question": "¿Cuáles son tus pasatiempos favoritos y por qué te gustan tantas?"
+}
+```
+
