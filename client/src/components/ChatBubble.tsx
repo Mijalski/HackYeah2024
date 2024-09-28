@@ -7,7 +7,7 @@ type ChatBubbleProps = {
   content?: string;
   userInputRef?: LegacyRef<HTMLTextAreaElement> | undefined;
   onSoundClick?: (content: string | undefined) => void;
-  canSubmit?: boolean
+  canSubmit?: boolean;
 };
 
 const ChatBubble = ({

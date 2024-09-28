@@ -54,14 +54,16 @@ const MainView = () => {
       if (event.key === "Enter") {
         if (userInputRef?.current) {
           setCanSubmit(false);
-          gcdService.evaluateResponse(userInputRef?.current.value).then((response) => {
-            if (response.isValid) {
-              handleWin();
-            } else {
-              setShowFeedback(true);
-              setFeedback(response.evaluation);
-            }
-          });
+          gcdService
+            .evaluateResponse(userInputRef?.current.value)
+            .then((response) => {
+              if (response.isValid) {
+                handleWin();
+              } else {
+                setShowFeedback(true);
+                setFeedback(response.evaluation);
+              }
+            });
         }
       }
     };
@@ -77,17 +79,17 @@ const MainView = () => {
     setBalance((prev) => prev + 1);
     placeTree();
   }
-  
+
   const placeTree = () => {
     const newBottom = Math.random() * (300 - 100); //TODO bottom calculation
-    const newLeft = Math.random() * (window.innerWidth - 50); 
-  
+    const newLeft = Math.random() * (window.innerWidth - 50);
+
     const newImage: ImageType = {
       id: Date.now(),
       bottom: newBottom,
       left: newLeft,
     };
-  
+
     setImages((prevImages) => [...prevImages, newImage]);
   };
 
@@ -180,21 +182,19 @@ const MainView = () => {
             userInputRef={userInputRef}
           />
         )}
-        {showFeedback && (
-          <FeedbackBubble content={feedback} />
-        )}
+        {showFeedback && <FeedbackBubble content={feedback} />}
       </div>
-      <div>  
+      <div>
         {images.map((image) => (
           <img
             key={image.id}
             src={image.id % 2 == 0 ? icons.CONIFER_TREE : icons.LEAF_TREE}
             style={{
               zIndex: 100,
-              position: 'fixed',
+              position: "fixed",
               bottom: `${image.bottom}px`,
               left: `${image.left}px`,
-              transition: 'top 0.5s, left 0.5s',
+              transition: "top 0.5s, left 0.5s",
             }}
           />
         ))}
