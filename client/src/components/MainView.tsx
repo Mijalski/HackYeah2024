@@ -219,6 +219,7 @@ const MainView = () => {
               position: "fixed",
               bottom: `${image.bottom}px`,
               left: `${image.left}px`,
+              scale: 2,
               transition: "top 0.5s, left 0.5s",
             }}
           />
