@@ -13,15 +13,10 @@ const AchievementCount = () => {
 
   const { achievementCount } = achievementCountContext;
   return (
-    <div className="text-[#273237] flex px-4 py-2 rounded-md justify-center items-center space-x-4 text-2xl bg-bgPrimary select-none cursor-pointer"
-      onClick={() => {
-
-      }}
-    >
+    <div className="text-[#273237] flex px-4 py-2 rounded-md justify-center items-center space-x-4 text-2xl bg-bgPrimary select-none cursor-pointer">
       <img src={icons.GOLD_CUP} className="w-7" />
       <span>{achievementCount}</span>
     </div>
-    
   );
 };
 
