@@ -236,7 +236,7 @@ const MainView = () => {
             key={image.id}
             src={image.id % 2 == 0 ? icons.CONIFER_TREE : icons.LEAF_TREE}
             style={{
-              zIndex: 100,
+              zIndex: 9,
               position: "fixed",
               bottom: `${image.bottom}px`,
               left: `${image.left}px`,
