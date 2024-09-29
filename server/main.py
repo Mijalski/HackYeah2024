@@ -110,7 +110,7 @@ def post_evaluation(request: Request):
         model_name="gpt-4o-mini",
         openai_api_key=fetch_openai_api_key(),
         temperature=0.1,
-        max_tokens=100,
+        max_tokens=300,
     )
 
     evaluation_prompt = f"""
