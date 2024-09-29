@@ -20,7 +20,7 @@ def get_prompt(request: Request):
     llm = ChatOpenAI(
         model_name="gpt-4o-mini",
         openai_api_key=fetch_openai_api_key(),
-        temperature=1.57,
+        temperature=1.56,
         max_tokens=100,
     )
 
@@ -33,6 +33,10 @@ def get_prompt(request: Request):
         Generate a {level} level small talk question for language learning. Be creative and think of something fun.
         The question should be in {to_lang}. It should encourage small responses for beginnner levels and larger ones
         for more advanced levels. Return the question only without anything else so it appears as a real conversation starter.
+        For A1 level ask questions that are really simple that could even be responded with a single word.
+        A great example would be how do you say X in {from_lang}?
+        For A2 the questions could become a bit more complex, requiring full setences, but still easy to answer.
+        For B1 and beyond the expected answers could be more and more complex.
         """,
 
         f"""
@@ -106,17 +110,19 @@ def post_evaluation(request: Request):
     )
 
     evaluation_prompt = f"""
-        Evaluate the following response based on the task given:
-        Task: {original_prompt}. 
-        Response: {user_response}. 
-        Response should be in {to_lang}. 
-        The evaluation should be done in {from_lang} and should consider the language level {level}.
-        For levels A1 and A2, allow for simpler sentences and some minor errors if they do not hinder understanding. 
-        Consider the correctness of the response in {to_lang}, translation accuracy if applicable, correct verb conjugation, 
-        and whether it appropriately matches the task requirements. 
-        Return 'valid' if the response is acceptable, considering the language level, 
-        otherwise return 'invalid' with a brief reason in the {from_lang} language. 
-        Provide an example of how to correct the response if needed.
+        Evaluate if for a given question in {to_lang} language:
+        ```
+        {original_prompt}
+        ```
+        the answer
+        ```
+        {user_response} 
+        ```
+        would be proper.
+        Assume the response was written by a person that primarly speaks {from_lang} and is learning {to_lang} currently
+        at the level {level}. For lower levels like A1, A2 allow for mistakes, but for more advanced levels
+        provide proper feedback. For responses that are below expectations return an explanation prefixed by Invalid. otherwise
+        return Valid.
     """
         
     evaluation_message = HumanMessage(content=evaluation_prompt)
