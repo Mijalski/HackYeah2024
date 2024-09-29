@@ -4,16 +4,15 @@ const BASE_URL = "https://europe-central2-hackyeah-2024.cloudfunctions.net"
 const audioCache = new Map();
 
 export const gcdService = {
-    
+
     getHelloWorld: async () => {
         return await axios.get(`${BASE_URL}/hello_world`)
     },
     getPrompt: async (level: string, from: string, to: string) => {
         return await axios.get(`${BASE_URL}/get_prompt?level=${level}&from=${from}&to=${to}`)
     },
-    evaluateResponse: async (response: string) => {
-        const r = await axios.post(`${BASE_URL}/post_evaluation`, { response });
-        return r.data;
+    evaluateResponse: async (response: object) => {
+        return await axios.post(`${BASE_URL}/post_evaluation`, response)
     },
     readPrompt: async (prompt: string) => {
         if (audioCache.has(prompt)) {

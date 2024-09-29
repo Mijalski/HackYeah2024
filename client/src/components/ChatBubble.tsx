@@ -1,4 +1,4 @@
-import { LegacyRef, useState } from "react";
+import { Dispatch, LegacyRef, SetStateAction } from "react";
 
 type ChatBubbleProps = {
   isServer?: boolean;
@@ -7,7 +7,9 @@ type ChatBubbleProps = {
   content?: string;
   userInputRef?: LegacyRef<HTMLTextAreaElement> | undefined;
   onSoundClick?: (content: string | undefined) => void;
+  userInput: string;
   canSubmit?: boolean;
+  setUserInput: Dispatch<SetStateAction<string>>;
 };
 
 const ChatBubble = ({
@@ -16,11 +18,10 @@ const ChatBubble = ({
   onPlayClick,
   content,
   onSoundClick,
-  userInputRef,
-  canSubmit = false,
+  canSubmit,
+  userInput,
+  setUserInput,
 }: ChatBubbleProps) => {
-  const [userInput, setUserInput] = useState("");
-
   const bubbleStyle = isServer
     ? "bg-[#F1FEFF] text-[#273237] self-start"
     : "bg-blue-500 text-white self-end";
@@ -50,7 +51,6 @@ const ChatBubble = ({
         ) : (
           <textarea
             className="w-full bg-transparent outline-none resize-none"
-            ref={userInputRef}
             value={userInput}
             disabled={!canSubmit}
             onChange={(e) => setUserInput(e.target.value)}

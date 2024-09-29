@@ -50,7 +50,6 @@ export const LanguageContextProvider: FC<LanguageProviderProps> = ({
     const fromLangCache = localStorage.getItem("fromLanguage");
     const toLangCache = localStorage.getItem("toLanguage");
     const levelCache = localStorage.getItem("level");
-    console.log("toLangCache=>", toLangCache);
     setFromLanguage(() => {
       const foundLang = LANGUAGES.find((el) => el.language === fromLangCache);
 
@@ -72,7 +71,6 @@ export const LanguageContextProvider: FC<LanguageProviderProps> = ({
     if (toLangCache) {
       setToLanguage(() => {
         const foundLang = LANGUAGES.find((el) => el.language === toLangCache);
-        console.log("found to lang => ", foundLang);
         if (foundLang?.language && foundLang?.shortcut && foundLang?.icon) {
           return {
             language: foundLang.language,

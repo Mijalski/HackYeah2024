@@ -15,6 +15,7 @@ const MainView = () => {
   const [canSubmit, setCanSubmit] = useState(false);
   const [feedback, setFeedback] = useState("");
   const userInputRef = useRef<HTMLTextAreaElement>(null);
+  const [userInput, setUserInput] = useState("");
   const balanceContext = useContext(BalanceContext);
 
   if (!balanceContext) {
@@ -29,11 +30,13 @@ const MainView = () => {
 
   const handleSoundClick = (prompt: string | undefined) => {
     if (prompt && !isReading) {
+      document.body.style.cursor = "wait";
       gcdService.readPrompt(prompt).then((response) => {
         const audioUrl = URL.createObjectURL(response);
         const audio = new Audio(audioUrl);
         audio.play();
         setIsReading(true);
+        document.body.style.cursor = "default";
         audio.onended = () => {
           setIsReading(false);
         };
@@ -55,13 +58,13 @@ const MainView = () => {
         if (userInputRef?.current) {
           setCanSubmit(false);
           gcdService
-            .evaluateResponse(userInputRef?.current.value)
+            .evaluateResponse(evalResponseDataRef.current)
             .then((response) => {
-              if (response.isValid) {
+              if (response.data.isValid) {
                 handleWin();
               } else {
                 setShowFeedback(true);
-                setFeedback(response.evaluation);
+                setFeedback(response.data.evaluation);
               }
             });
         }
@@ -100,6 +103,24 @@ const MainView = () => {
   }
 
   const { fromLanguage, toLanguage, toLevel } = languageContext;
+
+  useEffect(() => {
+    evalResponseDataRef.current = {
+      prompt: apiQuestion,
+      level: toLevel.level,
+      from: fromLanguage.shortcut,
+      to: toLanguage.shortcut,
+      response: userInput,
+    };
+  }, [userInput]);
+
+  const evalResponseDataRef = useRef({
+    prompt: apiQuestion,
+    level: toLevel.level,
+    from: fromLanguage.shortcut,
+    to: toLanguage.shortcut,
+    response: userInput,
+  });
 
   const emoji1 = confetti.shapeFromText({ text: "😍" });
   const emoji2 = confetti.shapeFromText({ text: "👏" });
@@ -168,6 +189,8 @@ const MainView = () => {
     <main className="bg-background w-full h-[100vh] flex items-center flex-col z-10">
       <div className="z-10 mt-16 gap-y-8 flex flex-col">
         <ChatBubble
+          userInput={userInput}
+          setUserInput={setUserInput}
           isPlaying={isPlaying}
           onPlayClick={handlePlayClick}
           content={apiQuestion}
@@ -180,6 +203,8 @@ const MainView = () => {
             canSubmit={canSubmit}
             onPlayClick={handlePlayClick}
             userInputRef={userInputRef}
+            userInput={userInput}
+            setUserInput={setUserInput}
           />
         )}
         {showFeedback && <FeedbackBubble content={feedback} />}
