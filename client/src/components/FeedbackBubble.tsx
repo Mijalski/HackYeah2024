@@ -15,7 +15,15 @@ const FeedbackBubble = ({
         style={{ wordBreak: "break-word" }}
       >
           <div className="text-[#273237]">
-            {content}
+            {content ? (
+              content
+            ) : (
+              <div className="dots font-bold text-base">
+                <span>.</span>
+                <span>.</span>
+                <span>.</span>
+              </div>
+            )}
           </div>
         <div className={tailStyle}></div>
         </div>

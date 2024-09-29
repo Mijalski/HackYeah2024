@@ -57,13 +57,13 @@ const MainView = () => {
       if (event.key === "Enter") {
         if (evalResponseDataRef.current.response) {
           setCanSubmit(false);
+          setShowFeedback(true);
           gcdService
             .evaluateResponse(evalResponseDataRef.current)
             .then((response) => {
               if (response.data.isValid) {
                 handleWin();
               } else {
-                setShowFeedback(true);
                 setFeedback(response.data.evaluation);
               }
             });
@@ -90,7 +90,7 @@ const MainView = () => {
     const newImage: ImageType = {
       id: Date.now(),
       bottom: newBottom,
-      left: newLeft,
+      left: newLeft
     };
 
     setImages((prevImages) => [...prevImages, newImage]);
