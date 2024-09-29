@@ -12,6 +12,7 @@ const MainView = () => {
   const [apiQuestion, setApiQuestion] = useState("");
   const [isReading, setIsReading] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
+  const [hasFeedbackResponse, setHasFeedbackResponse] = useState(false);
   const [canSubmit, setCanSubmit] = useState(false);
   const [feedback, setFeedback] = useState("");
   const userInputRef = useRef<HTMLTextAreaElement>(null);
@@ -61,6 +62,7 @@ const MainView = () => {
           gcdService
             .evaluateResponse(evalResponseDataRef.current)
             .then((response) => {
+              setHasFeedbackResponse(true)
               if (response.data.isValid) {
                 handleWin();
               } else {
@@ -167,14 +169,23 @@ const MainView = () => {
     setShowFeedback(false);
     setFeedback("");
     if (isPlaying) {
-      gcdService
-        .getPrompt(toLevel.level, fromLanguage.shortcut, toLanguage.shortcut)
-        .then((response) => {
-          setCanSubmit(true);
-          setApiQuestion(response.data.question);
-        });
+      fetchQuestion();
     }
   }, [fromLanguage, toLanguage, toLevel.level]);
+
+  function fetchQuestion() {
+    setApiQuestion("");
+    setShowFeedback(false);
+    setFeedback("");
+    setUserInput("");
+    gcdService
+      .getPrompt(toLevel.level, fromLanguage.shortcut, toLanguage.shortcut)
+      .then((response) => {
+        setCanSubmit(true);
+        setApiQuestion(response.data.question);
+        setHasFeedbackResponse(false);
+      });
+  }
 
   useEffect(() => {
     if (isPlaying) {
@@ -209,7 +220,7 @@ const MainView = () => {
             setUserInput={setUserInput}
           />
         )}
-        {showFeedback && <FeedbackBubble content={feedback} />}
+        {showFeedback && <FeedbackBubble content={feedback} showButton={hasFeedbackResponse} onButtonClick={() => {fetchQuestion()}}/>}
       </div>
       <div>
         {images.map((image) => (
