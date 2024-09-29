@@ -18,9 +18,9 @@ def fetch_openai_api_key():
 
 def get_prompt(request: Request):
     llm = ChatOpenAI(
-        model_name="gpt-4o-mini",
+        model_name="gpt-4o",
         openai_api_key=fetch_openai_api_key(),
-        temperature=1.56,
+        temperature=1.3,
         max_tokens=100,
     )
 
@@ -30,14 +30,17 @@ def get_prompt(request: Request):
 
     prompt_options = [
         f"""
-        Generate a {level} level small talk question for language learning. Be creative and think of something fun.
-        The question should be in {to_lang}. It should encourage small responses for beginnner levels and larger ones
-        for more advanced levels. Return the question only without anything else so it appears as a real conversation starter.
-        For A1 level ask questions that are really simple that could even be responded with a single word.
-        A great example would be how do you say X in {from_lang}?
-        For A2 the questions could become a bit more complex, requiring full setences, but still easy to answer.
-        For B1 and beyond the expected answers could be more and more complex.
-        Prioritize being creative do not question trivial things, be a good conversation starter.
+        Generate a unique and creative {level} level small talk question for language learning in {to_lang}. 
+        Tailor the complexity of the question according to the specified level:
+        - **A1 (Beginner):** Ask very simple, one-word answerable questions. These should be straightforward, about familiar topics like daily routines, food, colors, or personal preferences. For example, "What's your favorite color?" or "How do you say 'apple' in {from_lang}?"
+        - **A2 (Elementary):** Make the question a bit more complex, but still easily answerable with a short sentence. These questions should cover familiar contexts but may ask for slightly more information. For example, "What do you like to do on weekends?"
+        - **B1 (Intermediate):** Ask for more detail, involving simple opinions or descriptions. These questions should require longer responses but still be within everyday situations. For example, "Can you describe your ideal vacation?"
+        - **B2 (Upper Intermediate):** Ask more in-depth questions that encourage reflection or explanation. These questions could involve describing experiences, sharing thoughts, or explaining reasoning. For example, "What challenges do you face when learning a new language?"
+        - **C1 (Advanced):** Pose complex, open-ended questions that invite discussion or debate. These questions could explore abstract ideas, hypotheticals, or cultural comparisons. For example, "How do you think technology will shape the future of education?" or "Can you discuss the cultural differences between {to_lang} speaking countries and your own?"
+
+        Prioritize creativity and avoid trivial or overly simple topics. Focus on fun, engaging prompts that are likely to encourage interaction and interest.
+        Avoid repeating questions that have been generated before, and vary the topics to keep the conversation fresh and engaging.
+        Return the question only, without any extra information, so it appears as a natural conversation starter.
         """,
 
         f"""
@@ -136,6 +139,8 @@ def post_evaluation(request: Request):
     valid = False
     if evaluation_result.startswith("Valid"):
         valid = True
+
+    evaluation_result = evaluation_result.replace("Invalid. ", "")
 
     response = jsonify({"evaluation": evaluation_result, "isValid": valid})
     response.headers.add("Access-Control-Allow-Origin", "*")

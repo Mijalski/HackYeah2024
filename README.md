@@ -12,6 +12,12 @@ gcloud projects add-iam-policy-binding hackyeah-2024 \
   --role="roles/cloudfunctions.invoker"
 ```
 
+```
+gcloud projects add-iam-policy-binding hackyeah-2024 \
+  --member="serviceAccount:cloud-functions-sa@hackyeah-2024.iam.gserviceaccount.com" \
+  --role="roles/secretmanager.secretAccessor"
+```
+
 
 ### Trigger Cloud Function locally
 ```
@@ -24,13 +30,13 @@ functions-framework --target=get_prompt
 
 ### Deploy Cloud Function
 ```
-gcloud functions deploy post_evaluation `
+gcloud functions deploy [FUNCTION_NAME] `
     --runtime python312 `
     --trigger-http `
     --allow-unauthenticated `
     --service-account cloud-functions-sa@hackyeah-2024.iam.gserviceaccount.com `
     --region=europe-central2 `
-    --entry-point post_evaluation
+    --entry-point [FUNCTION_NAME]
 ```
 
 
