@@ -122,7 +122,9 @@ def post_evaluation(request: Request):
         would be proper.
         Assume the response was written by a person that primarly speaks {from_lang} and is learning {to_lang} currently
         at the level {level}. For lower levels like A1, A2 allow for mistakes, but for more advanced levels
-        provide proper feedback. For responses that are below expectations return an explanation prefixed by Invalid. otherwise
+        provide proper feedback. 
+        For A1 accept one word answers. For A2 be a bit more strict and for higher levels do demand more.
+        For responses that are below expectations return an explanation prefixed by Invalid. otherwise
         return Valid.
     """
         
