@@ -20,7 +20,7 @@ def get_prompt(request: Request):
     llm = ChatOpenAI(
         model_name="gpt-4o-mini",
         openai_api_key=fetch_openai_api_key(),
-        temperature=1.4,
+        temperature=1.57,
         max_tokens=100,
     )
 
