@@ -37,6 +37,7 @@ def get_prompt(request: Request):
         A great example would be how do you say X in {from_lang}?
         For A2 the questions could become a bit more complex, requiring full setences, but still easy to answer.
         For B1 and beyond the expected answers could be more and more complex.
+        Prioritize being creative do not question trivial things, be a good conversation starter.
         """,
 
         f"""
