@@ -249,7 +249,7 @@ const MainView = () => {
       </div>
       <img
         src={icons.LAND}
-        className="fixed -bottom-[140px] z-0 select-none w-screen"
+        className="fixed sm:-bottom-[140px] bottom-0 z-0 select-none w-screen"
       />
     </main>
   );
