@@ -62,7 +62,7 @@ const MainView = () => {
           gcdService
             .evaluateResponse(evalResponseDataRef.current)
             .then((response) => {
-              setHasFeedbackResponse(true)
+              setHasFeedbackResponse(true);
               if (response.data.isValid) {
                 handleWin();
               } else {
@@ -220,7 +220,15 @@ const MainView = () => {
             setUserInput={setUserInput}
           />
         )}
-        {showFeedback && <FeedbackBubble content={feedback} showButton={hasFeedbackResponse} onButtonClick={() => {fetchQuestion()}}/>}
+        {showFeedback && (
+          <FeedbackBubble
+            content={feedback}
+            showButton={hasFeedbackResponse}
+            onButtonClick={() => {
+              fetchQuestion();
+            }}
+          />
+        )}
       </div>
       <div>
         {images.map((image) => (
@@ -233,6 +241,7 @@ const MainView = () => {
               bottom: `${image.bottom}px`,
               left: `${image.left}px`,
               scale: 2,
+              rotate: `${Math.random() * 7 - 3}deg`,
               transition: "top 0.5s, left 0.5s",
             }}
           />
