@@ -55,17 +55,19 @@ const MainView = () => {
   useEffect(() => {
     const handleKeyPress = (event: any) => {
       if (event.key === "Enter") {
-        setCanSubmit(false);
-        gcdService
-          .evaluateResponse(evalResponseDataRef.current)
-          .then((response) => {
-            if (response.data.isValid) {
-              handleWin();
-            } else {
-              setShowFeedback(true);
-              setFeedback(response.data.evaluation);
-            }
-          });
+        if (evalResponseDataRef.current.response) {
+          setCanSubmit(false);
+          gcdService
+            .evaluateResponse(evalResponseDataRef.current)
+            .then((response) => {
+              if (response.data.isValid) {
+                handleWin();
+              } else {
+                setShowFeedback(true);
+                setFeedback(response.data.evaluation);
+              }
+            });
+        }
       }
     };
 
