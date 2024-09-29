@@ -125,7 +125,7 @@ def post_evaluation(request: Request):
         provide proper feedback. 
         For A1 accept one word answers. For A2 be a bit more strict and for higher levels do demand more.
         For responses that are below expectations return an explanation prefixed by Invalid. otherwise
-        return Valid.
+        return Valid. Provide the feedback in {from_lang}
     """
         
     evaluation_message = HumanMessage(content=evaluation_prompt)
