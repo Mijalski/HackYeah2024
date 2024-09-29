@@ -31,7 +31,7 @@ const ChatBubble = ({
     : "chat-bubble-tail-right";
 
   return isPlaying ? (
-    <div className="relative mb-2 w-96 flex items-center">
+    <div className="relative mb-2 sm:w-96 w-80 flex items-center">
       <div
         className={`relative w-full rounded-3xl p-4 ${bubbleStyle} flex items-center justify-center animate-fade-in-bottom`}
         style={{ wordBreak: "break-word" }}
@@ -50,11 +50,11 @@ const ChatBubble = ({
           </div>
         ) : (
           <textarea
-            className="w-full bg-transparent outline-none resize-none"
+            className="w-full bg-transparent outline-none resize-none placeholder:text-gray-100"
             value={userInput}
             disabled={!canSubmit}
             onChange={(e) => setUserInput(e.target.value)}
-            placeholder="Type your message..."
+            placeholder="Type your answer..."
             rows={3}
             style={{ minHeight: "3em", lineHeight: "1.5em" }}
           />
@@ -63,7 +63,7 @@ const ChatBubble = ({
       </div>
       {isServer && content && content.length > 1 && (
         <div
-          className="absolute right-0 translate-x-4 flex items-center cursor-pointer"
+          className="absolute right-2 translate-x-4 flex items-center cursor-pointer"
           onClick={() => onSoundClick?.(content)}
         >
           <div className="text-2xl scale-150 cursor-pointer">🔊</div>
@@ -75,9 +75,9 @@ const ChatBubble = ({
       className="bg-[#FFE53B] hover:bg-[#FFDE08] border-[#FFC024] border-2 w-full rounded-3xl p-4 text-[#F1FEFF] flex items-center justify-center cursor-pointer"
       onClick={onPlayClick}
     >
-      <div className="select-none px-12 py-3 text-6xl text-center font-bold stroke-cyan-500 [text-shadow:_2px_2px_0_#FFC024]">
+      <button className="select-none px-12 py-3 text-6xl text-center font-bold stroke-cyan-500 [text-shadow:_2px_2px_0_#FFC024]">
         PLAY
-      </div>
+      </button>
     </div>
   );
 };

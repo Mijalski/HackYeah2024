@@ -199,8 +199,8 @@ const MainView = () => {
   }, [isPlaying]);
 
   return (
-    <main className="bg-background w-full h-[100vh] flex items-center flex-col z-10">
-      <div className="z-10 mt-16 gap-y-8 flex flex-col">
+    <main className="bg-background w-full min-h-[100vh] flex items-center flex-col z-10">
+      <div className="z-10 sm:mt-16 mt-28 sm:gap-y-8 gap-y-2 flex flex-col">
         <ChatBubble
           userInput={userInput}
           setUserInput={setUserInput}

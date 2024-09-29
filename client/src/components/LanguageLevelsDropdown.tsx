@@ -15,7 +15,7 @@ const LanguageLevelsDropdown = ({
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button className="text-[#273237] flex bg-bgPrimary space-x-4 py-2 px-4 justify-center items-center rounded-lg font-light select-none transition-colors duration-200 hover:bg-[#D0E6E8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A1CBD1] w-[150px]">
+        <button className="text-[#273237] flex bg-bgPrimary space-x-4 py-2 px-4 justify-center items-center rounded-lg font-light select-none transition-colors duration-200 hover:bg-[#D0E6E8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A1CBD1] w-32 mt-3 sm:mt-0">
           <p className="text-xl">{selectedLevel.level}</p>
         </button>
       </DropdownMenu.Trigger>

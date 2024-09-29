@@ -11,11 +11,17 @@ const LanguageChanger = () => {
     throw new Error("LanguageContext must be used within a LanguageProvider");
   }
 
-  const { fromLanguage, setFromLanguage, toLanguage, setToLanguage, toLevel, setToLevel } =
-    languageContext;
+  const {
+    fromLanguage,
+    setFromLanguage,
+    toLanguage,
+    setToLanguage,
+    toLevel,
+    setToLevel,
+  } = languageContext;
 
   return (
-    <div className="flex space-x-4">
+    <div className="flex sm:space-x-4 flex-wrap justify-center">
       <LanguagesDropdown
         selectedLanguage={{
           language: fromLanguage?.language,
@@ -47,13 +53,14 @@ const LanguageChanger = () => {
           }
         }}
       />
-      <LanguageLevelsDropdown 
+      <LanguageLevelsDropdown
         selectedLevel={{
-          level: toLevel?.level
+          level: toLevel?.level,
         }}
         handleOnClickDropdownItem={(data) => {
           setToLevel(data);
-        }}/>
+        }}
+      />
     </div>
   );
 };
