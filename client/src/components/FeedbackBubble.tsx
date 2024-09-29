@@ -1,5 +1,3 @@
-import React from "react";
-
 type FeedbackBubbleProps = {
   content: string;
   showButton?: boolean; // Option to show the button

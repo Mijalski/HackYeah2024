@@ -23,7 +23,7 @@ const MainView = () => {
     throw new Error("BalanceContext must be used within a BalanceProvider");
   }
 
-  const { balance, setBalance } = balanceContext;
+  const { setBalance } = balanceContext;
 
   const handlePlayClick = () => {
     setIsPlaying(true);
