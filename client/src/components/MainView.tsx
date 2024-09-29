@@ -64,6 +64,8 @@ const MainView = () => {
               if (response.data.isValid) {
                 handleWin();
               } else {
+                setShowFeedback(true);
+                setBalance((prev) => prev - 20);
                 setFeedback(response.data.evaluation);
               }
             });
@@ -79,7 +81,7 @@ const MainView = () => {
 
   function handleWin() {
     shoot(Date.now() + 800);
-    setBalance((prev) => prev + 1);
+    setBalance((prev) => prev + 100);
     placeTree();
   }
 
@@ -90,7 +92,7 @@ const MainView = () => {
     const newImage: ImageType = {
       id: Date.now(),
       bottom: newBottom,
-      left: newLeft
+      left: newLeft,
     };
 
     setImages((prevImages) => [...prevImages, newImage]);
