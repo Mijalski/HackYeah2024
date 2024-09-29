@@ -6,6 +6,7 @@ import { LanguageContext } from "../Contexts/LangSelectedContextProvider";
 import { gcdService } from "../api/services/gcdService";
 import { BalanceContext } from "../Contexts/BalanceContextProvider";
 import FeedbackBubble from "./FeedbackBubble";
+import { useScreenSizeChecker } from "../hooks/useScreenSizeChecker";
 
 const MainView = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -18,6 +19,8 @@ const MainView = () => {
   const userInputRef = useRef<HTMLTextAreaElement>(null);
   const [userInput, setUserInput] = useState("");
   const balanceContext = useContext(BalanceContext);
+
+  const { isSmallScreen } = useScreenSizeChecker();
 
   if (!balanceContext) {
     throw new Error("BalanceContext must be used within a BalanceProvider");
@@ -238,7 +241,7 @@ const MainView = () => {
             style={{
               zIndex: 9,
               position: "fixed",
-              bottom: `${image.bottom}px`,
+              bottom: `${isSmallScreen ? image.bottom % 100 : image.bottom}px`,
               left: `${image.left}px`,
               scale: 2,
               rotate: `${Math.random() * 7 - 3}deg`,
