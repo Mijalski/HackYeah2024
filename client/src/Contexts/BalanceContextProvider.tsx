@@ -4,6 +4,7 @@ import {
   FC,
   ReactNode,
   SetStateAction,
+  useEffect,
   useState,
 } from "react";
 
@@ -23,7 +24,14 @@ export const BalanceContext = createContext<BalanceContextType | undefined>(
 export const BalanceContextProvider: FC<BalanceProviderProps> = ({
   children,
 }) => {
-  const [balance, setBalance] = useState<number>(0);
+  const [balance, setBalance] = useState<number>(() => {
+    const balanceCache = localStorage.getItem("balance");
+    return balanceCache ? parseInt(balanceCache) : 0;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("balance", balance.toString());
+  }, [balance]);
 
   return (
     <BalanceContext.Provider value={{ balance, setBalance }}>
@@ -31,4 +39,5 @@ export const BalanceContextProvider: FC<BalanceProviderProps> = ({
     </BalanceContext.Provider>
   );
 };
+
 export default BalanceContextProvider;
