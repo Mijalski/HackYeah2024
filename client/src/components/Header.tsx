@@ -4,7 +4,7 @@ import LanguageChanger from "./LanguageChanger";
 
 const Header = () => {
   return (
-    <header className="sm:py-2 sm:flex sm:justify-between sm:flex-row sm:px-3 flex-col justify-center items-center flex flex-wrap space-y-4 sm:space-y-0x bg-[#50C9FE] sm:bg-white py-3">
+    <header className="sm:py-2 sm:flex sm:justify-between sm:flex-row sm:px-3 flex-col justify-center items-center flex flex-wrap space-y-4 sm:space-y-0 bg-[#50C9FE] sm:bg-white py-3">
       <AchievementCount />
       <LanguageChanger />
       <Balance />
