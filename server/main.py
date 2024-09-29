@@ -1,5 +1,6 @@
 import random
 from io import BytesIO
+from typing import Tuple, Union
 
 from flask import Request, Response, jsonify
 from google.cloud import secretmanager
@@ -8,7 +9,7 @@ from langchain_openai import ChatOpenAI
 from openai import OpenAI
 
 
-def fetch_openai_api_key():
+def fetch_openai_api_key() -> str:
     client = secretmanager.SecretManagerServiceClient()
     response = client.access_secret_version(
         name="projects/hackyeah-2024/secrets/OPENAI_API_KEY/versions/latest"
@@ -16,7 +17,18 @@ def fetch_openai_api_key():
     return response.payload.data.decode("UTF-8")
 
 
-def get_prompt(request: Request):
+def handle_cors_for_options_method(request: Request) -> Union[None, Tuple[str, int, dict]]:
+    if request.method == "OPTIONS":
+        headers = {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Max-Age": "3600",
+        }
+        return ("", 204, headers)
+
+
+def get_prompt(request: Request) -> Response:
     llm = ChatOpenAI(
         model_name="gpt-4o",
         openai_api_key=fetch_openai_api_key(),
@@ -68,7 +80,7 @@ def get_prompt(request: Request):
         2) If the word to translate is in English, the question should look like:
         Please translate the word "love" to polish.
         """,
-        
+
         f"""
         Ask the user to conjugate a common verb they might need to learn at {level} level in {to_lang}. 
         Make sure to return only the task and nothing else.
@@ -77,6 +89,8 @@ def get_prompt(request: Request):
         """,
     ]
 
+    # In the initial version, idx is set to 0 instead of using random selection
+    # to focus on the selected functionality
     # idx = random.randint(0, len(prompt_options) - 1)
     idx = 0
     selected_prompt = prompt_options[idx]
@@ -89,16 +103,9 @@ def get_prompt(request: Request):
     return response
 
 
-def post_evaluation(request: Request):
-    if request.method == 'OPTIONS':
-        headers = {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'POST',
-            'Access-Control-Allow-Headers': 'Content-Type',
-            'Access-Control-Max-Age': '3600'
-        }
-        return ('', 204, headers)
-    
+def post_evaluation(request: Request) -> Response:
+    handle_cors_for_options_method(request)
+
     data = request.get_json()
     original_prompt = data.get("prompt")
     level = data.get("level", "A1")
@@ -130,7 +137,7 @@ def post_evaluation(request: Request):
         For responses that are below expectations return an explanation prefixed by Invalid. otherwise
         return Valid. Provide the feedback in {from_lang}
     """
-        
+
     evaluation_message = HumanMessage(content=evaluation_prompt)
     evaluation_response = llm([evaluation_message])
 
@@ -146,18 +153,12 @@ def post_evaluation(request: Request):
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
-def post_read_prompt(request: Request):
-    if request.method == 'OPTIONS':
-        headers = {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'POST',
-            'Access-Control-Allow-Headers': 'Content-Type',
-            'Access-Control-Max-Age': '3600'
-        }
-        return ('', 204, headers)
-    
+
+def post_read_prompt(request: Request) -> Response:
+    handle_cors_for_options_method(request)
+
     client = OpenAI(api_key=fetch_openai_api_key())
-    
+
     try:
         data = request.get_json()
         if not data or "prompt" not in data:
@@ -173,7 +174,7 @@ def post_read_prompt(request: Request):
         audio_content = response.content  # Access the binary content directly
         audio_stream = BytesIO(audio_content)
         audio_stream.seek(0)
-        
+
         response = Response(
             audio_stream,
             mimetype="audio/mpeg",
@@ -181,6 +182,6 @@ def post_read_prompt(request: Request):
         )
         response.headers.add("Access-Control-Allow-Origin", "*")
         return response
-    
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
